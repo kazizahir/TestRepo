@@ -28,10 +28,10 @@
     <script type="text/javascript">
         var gId = 8;
         var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
-        var items = [{ Id: 1, Label: 'Test1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', CategoryId: 2, Color: 'color-yellow' },
-            { Id: 4, Label: 'Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', CategoryId: 2, Color: 'color-blue' }];
+        var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow' },
+            { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
 
-        function updateCallback(e,ui) {
+        function updateCallback(e, ui) {
             var newCatId = ui.element[0].id;
             var itemId = ui.item[0].id;
             updateItem(itemId, newCatId);
@@ -73,7 +73,7 @@
             });
 
             for (var i = 0; i < items.length; i++) {
-                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="' + items[i].Id + '"><div class="widget-head"><h3>' + items[i].Label + ' </h3></div></li>'));
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="' + items[i].Id + '"><div class="widget-head"><h3>' + items[i].Label + ' </h3></div><div class="widget-content"><ul><li>' + items[i].Description + '</li></ul></div></li>'));
             }
 
             iNettuts.init();
