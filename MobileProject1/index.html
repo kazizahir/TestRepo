@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>iNettuts - Welcome!</title>
+
+    <link href="styles/inettuts.css" rel="stylesheet" type="text/css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="cordova.js" type="text/javascript"></script>
+
+
+
+</head>
+<body>
+
+    
+    <div>
+        <input type="text" id="columnName"/><button id="AddColumn">+</button></div>
+    <div id="columns"></div>
+
+    <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
+
+    <script type="text/javascript" src="scripts/JavaScript1.js"></script>
+    <script type="text/javascript" src="scripts/JavaScript2.js"></script>
+
+    <script type="text/javascript">
+        var gId = 8;
+        var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
+        var items = [{ Id: 1, Label: 'Test1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', CategoryId: 2, Color: 'color-yellow' },
+            { Id: 4, Label: 'Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', CategoryId: 2, Color: 'color-blue' }];
+
+        function updateCallback(e,ui) {
+            var newCatId = ui.element[0].id;
+            var itemId = ui.item[0].id;
+            updateItem(itemId, newCatId);
+
+        }
+
+        function updateItem(id, catId) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id && items[i].CategoryId != catId) {
+                    items[i].CategoryId = catId;
+                    return;
+                }
+            }
+        }
+
+        function updateItemLabel(id, label) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Label = label;
+                    return;
+                }
+            }
+        }
+
+        function renderBoard() {
+            $('#columns').empty();
+            for (var i = 0; i < data.length; i++) {
+                $('#columns').append($('<ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;background-color:green;height:26px;"><h3>' + data[i].Label + '<button style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul>'));
+            }
+
+            $('h3 button[catId]').each(function () {
+                $(this).click(function () {
+                    //repository.CreateItem();
+                    items.push({ Id: gId++, Label: '', CategoryId: $(this).attr('catId'), Color: 'color-green' });
+                    renderBoard();
+                    $('li#' + (gId - 1)).find('.edit').click();
+
+                });
+            });
+
+            for (var i = 0; i < items.length; i++) {
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="' + items[i].Id + '"><div class="widget-head"><h3>' + items[i].Label + ' </h3></div></li>'));
+            }
+
+            iNettuts.init();
+
+        }
+
+        renderBoard();
+
+    </script>
+
+    
+
+    <script type="text/javascript">
+        $('#AddColumn').click(function () {
+            var categoryName = $('#columnName').val();
+            if (categoryName == '')
+                return;
+
+            data.push({ Id: gId++, Label: categoryName });
+            
+            renderBoard();       
+        });
+
+    </script>
+</body>
+</html>
+
+
