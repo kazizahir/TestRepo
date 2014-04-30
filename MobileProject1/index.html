@@ -65,6 +65,16 @@
             }
         }
 
+        function updateItemColor(id, color) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Color = color;
+                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    return;
+                }
+            }
+        }
+
         function renderBoard() {
             $('#columns').empty();
             for (var i = 0; i < data.length; i++) {
