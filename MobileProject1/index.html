@@ -24,12 +24,20 @@
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
     <script type="text/javascript" src="scripts/JavaScript2.js"></script>
+    <script type="text/javascript" src="scripts/BoardRepo.js"></script>
 
     <script type="text/javascript">
+
+        var b = new BoardRepo();
+
         var gId = 8;
-        var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
-        var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow' },
-            { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
+
+        //var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
+        //var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow' },
+          //  { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
+
+        var data = b.GetCategories(1);
+        var items = b.GetBoardItems(1);        
 
         function updateCallback(e, ui) {
             var newCatId = ui.element[0].id;
@@ -65,7 +73,7 @@
             $('h3 button[catId]').each(function () {
                 $(this).click(function () {
                     //repository.CreateItem();
-                    items.push({ Id: gId++, Label: '', CategoryId: $(this).attr('catId'), Color: 'color-green' });
+                    items.push({ Id: gId++, Label: '', Description: 'Test Description', CategoryId: $(this).attr('catId'), Color: 'color-green' });
                     renderBoard();
                     $('li#' + (gId - 1)).find('.edit').click();
 
@@ -80,8 +88,17 @@
 
         }
 
-        renderBoard();
+        
 
+
+        renderBoard();
+        
+        //alert(b.GetBoardItems(1));
+        //var p = b.GetCategories(1);
+
+        //var q = b.GetUsers(1);
+
+        //alert(q[0].UserName)
     </script>
 
     
