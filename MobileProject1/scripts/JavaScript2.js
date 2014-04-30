@@ -90,6 +90,7 @@
                             });
                             return colorList + '</ul>';
                         })())
+                        //.append('<select class="select-user"><option value="muzahid">Muzahid</option><option value="kazi">Kazi</option></select>')
                         .append('</ul>')
                         .insertAfter($(settings.handleSelector, this));
                 }
@@ -108,6 +109,20 @@
                                 .find(settings.contentSelector).show();
                         return false;
                     }).prependTo($(settings.handleSelector, this));
+
+                    //var addUser = $('<a href="#userPopup" data-rel="popup" data-transition="pop" class="add-user">ADD USER</a>');
+                    //addUser.mousedown(function (e) {
+                    //    e.stopPropagation();
+
+                    //}).toggle(function () {
+                    //    //JQuery('.users-div').dialog();
+
+                    //    return false;
+                    //}, function () {
+                        
+                    //    return false;
+                    //});
+                    //add.prependTo($(settings.handleSelector, this));
                 }
             });
 

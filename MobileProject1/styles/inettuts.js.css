@@ -33,6 +33,17 @@
     outline: none;
 }
 
+a.add-user  {
+    float: left;
+    display: inline;
+    background: url(images/user.png) no-repeat;
+    width: 14px;
+    height: 14px;
+    text-indent: -9999em;
+    margin: 8px 0 8px 4px;
+    outline: none;
+}
+
 .widget-placeholder { border: 2px dashed #999;}
 /*#column1 .widget-placeholder { margin: 30px 35px 0 25px; }
 #column2 .widget-placeholder { margin: 30px 20px 0 20px; }
