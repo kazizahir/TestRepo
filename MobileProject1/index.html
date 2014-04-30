@@ -28,16 +28,15 @@
 
     <script type="text/javascript">
 
-        var b = new BoardRepo();
+        var board = new BoardRepo();
 
-        var gId = 8;
-
+        //board.AddCategory(1, 'Test Category');
         //var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
         //var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow' },
           //  { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
 
-        var data = b.GetCategories(1);
-        var items = b.GetBoardItems(1);        
+        var data = board.GetCategories(1);
+        var items = board.GetBoardItems(1);
 
         function updateCallback(e, ui) {
             var newCatId = ui.element[0].id;
@@ -50,6 +49,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id && items[i].CategoryId != catId) {
                     items[i].CategoryId = catId;
+                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     return;
                 }
             }
@@ -59,6 +59,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Label = label;
+                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     return;
                 }
             }
@@ -73,9 +74,12 @@
             $('h3 button[catId]').each(function () {
                 $(this).click(function () {
                     //repository.CreateItem();
-                    items.push({ Id: gId++, Label: '', Description: 'Test Description', CategoryId: $(this).attr('catId'), Color: 'color-green' });
+                    var colId = $(this).attr('catId');                    
+                    var itemId = board.AddItem(1, colId, '', 'color-green', 'Test Description');
+                    alert(itemId);
+                    items.push({ Id: itemId, Label: '', Description: 'Test Description', CategoryId: colId, Color: 'color-green' });
                     renderBoard();
-                    $('li#' + (gId - 1)).find('.edit').click();
+                    $('li#' + (itemId)).find('.edit').click();
 
                 });
             });
@@ -87,9 +91,6 @@
             iNettuts.init();
 
         }
-
-        
-
 
         renderBoard();
         
@@ -108,8 +109,8 @@
             var categoryName = $('#columnName').val();
             if (categoryName == '')
                 return;
-
-            data.push({ Id: gId++, Label: categoryName });
+            var catId = board.AddCategory(1, categoryName);
+            data.push({ Id: catId, Label: categoryName });
             
             renderBoard();       
         });
