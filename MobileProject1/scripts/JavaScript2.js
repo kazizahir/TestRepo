@@ -126,6 +126,8 @@
                         $(this).parents(settings.widgetSelector)
                             .removeClass(thisWidgetColorClass[0])
                             .addClass($(this).attr('class').match(colorStylePattern)[0]);
+                        
+                        updateItemColor($(this).parents('li.widget').attr('id'), $(this).attr('class').match(colorStylePattern)[0]);
                     }
                     return false;
 
