@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles/jquery.mobile-1.4.2.css">
 
 
-    <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
+    <script type='text/javascript' src='scripts/jquery-1.9.1.min.js'></script>
     <script type="text/javascript" src="scripts/jquery.mobile-1.4.2.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.js"></script>
 
@@ -29,21 +29,6 @@
     
 </head>
 <body>
-    <!--<a href="#popupBasic" data-rel="popup" data-transition="pop">Add User</a>
-    <div data-role="popup" id="popupBasic">
-        <p>Select user(s)</p>
-        <div class="users-div"></div>
-    </div>
-
-    <a href="#popupBasic1" data-rel="popup" data-transition="pop">Add User</a>
-    <div data-role="popup" id="popupBasic1">
-        <p>Select user(s)</p>
-        <div class="users-div"></div>
-    </div>-->
-
-    <!--<div class="users-div" id="userPopup" style="display: none"></div>-->
-
-    
     <div>
         <input type="text" id="columnName"/><button id="AddColumn">+</button></div>
     <div id="columns"></div>
@@ -56,8 +41,8 @@
     <script type="text/javascript">
         var gId = 8;
         var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
-        var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red' }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green' }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow' },
-            { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
+        var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red', Users: ['1','2'] }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green', Users: ['1'] }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow', Users: ['2'] },
+            { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange', Users: ['1'] }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white', Users: ['2'] }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue', Users: ['2'] }];
         var users = [{ Id: 1, Name: 'Muzahid', Email: 'mail.muzahid@gmail.com', Phone: '8802132132', Photo: 'http://someimageurl.com', BoardId: '1' }, { Id: 2, Name: 'Kazi', Email: 'zahir.kazi@gmail.com', Phone: '88021327325', Photo: 'http://someimageurl.com', BoardId: '1' }];
 
 
@@ -86,6 +71,15 @@
             }
         }
 
+        function updateItemUsers(id, users) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Users = users;
+                    return;
+                }
+            }
+        }
+
         function renderBoard() {
             $('#columns').empty();
             for (var i = 0; i < data.length; i++) {
@@ -103,7 +97,7 @@
             });
 
             for (var i = 0; i < items.length; i++) {
-                var addUserPopup = '<a id="popup:' + items[i].Id + '" href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-role="popup"><p>Select user(s)</p><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
+                var addUserPopup = '<a id="popup:' + items[i].Id + '" href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-role="popup"><div style="background-color: lightgrey;font-family: arial;font-size: 12px;font-weight: bold;">Select user(s)</div><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
                 $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="itemid-' + items[i].Id + '"><div>' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
 
                
@@ -111,53 +105,15 @@
 
             var userMenu = $('<div class="user-menu" style=""><ul id="menu"></ul></div>');
             for (var i = 0; i < users.length; i++) {
-                userMenu.find('#menu').append('<table><tr><td><input type="checkbox" onclick="doClick(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"></td><td style="padding-left: 30px;"><img src="pictures/' + users[i].Name + '.jpg" onclick="$("#dialog").dialog();"/></td><td><div>' + users[i].Name + '</div></td></span>');
+                userMenu.find('#menu').append('<table><tr><td><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"></td><td style="padding-left: 30px;"><img width="30" height="30" border="1" src="pictures/' + users[i].Name + '.jpg"/></td><td><div style="font-size: 14px;">' + users[i].Name + '</div></td></span>');
             }            
             $('.users-div').append(userMenu);
 
-            
-
-            //$("input[type=checkbox]").click(function () {
-            //    var parent = $(this);
-            //    while (true) {
-            //        parent = $(parent).parent();
-            //        if ($(parent).attr('class') == 'users-div') {
-            //            break;
-            //        }
-            //    }
-
-            //    if ($(this).is(':checked')) {                    
-            //        //alert(JSON.stringify(selectedUsers));
-            //        //alert(jQuery(this).parents('.users-div ').attr('itemid'));
-                    
-            //        selectedUsers.push({ itemId: $(parent).attr('itemid'), userId: $(this).val() });
-            //        $('div#' + $(parent).attr('itemid')).empty().append('<img sec="pictures/Muzahid.jpg">');
-            //    }
-            //    else {
-            //        var userId = $(this).val();
-            //        var newArray = Array();
-            //        $.each(selectedUsers, function (i, element) {
-            //            //alert(element.itemId + ' :' + $(parent).attr('itemid') + ' , ' + element.userId + ' : ' + userId);
-            //            if (element.itemId != $(parent).attr('itemid') && element.userId != userId) {
-            //                newArray.push(element);
-            //            }
-            //        });
-            //        selectedUsers = newArray;
-            //    }
-
-            //    alert(JSON.stringify(selectedUsers));
-            //});
-
-            //var selectedUsers = new Array();
-
             iNettuts.init();
-
         }
 
-        renderBoard();
 
-        function doClick(ctl, user) {
-            alert(user);
+        function selectOrUnselectUser(ctl, user) {
             var parent = $(ctl);
             while (true) {
                 parent = $(parent).parent();
@@ -167,36 +123,52 @@
             }
 
             if ($(ctl).is(':checked')) {
-                //alert(JSON.stringify(selectedUsers));
-                //alert(jQuery(this).parents('.users-div ').attr('itemid'));
+                selectedUsers.push({ itemId: $(parent).attr('itemid'), userId: $(ctl).val(), userName: user });
+                
+                addPhoto($(parent).attr('itemid'), user);
 
-                selectedUsers.push({ itemId: $(parent).attr('itemid'), userId: $(ctl).val() });
-                //$('div#' + $(parent).attr('itemid')).empty().append('<img sec="pictures/Muzahid.jpg">');
-                //$('.user-icons').each(function () {
-                //    if ($(this).attr('item') == $(parent).attr('itemid')) {
-                //        $(this).find('.user-image').append('<div><img sec="pictures/Muzahid.jpg"></div>');
-                //    }
-                //});
-
-                alert($('.user-item-id' + $(parent).attr('itemid')).html());
-                alert(user);
-                $('.user-item-id' + $(parent).attr('itemid')).empty().append('<div><img height="50" width="50" src="pictures/'+user+'.jpg"></div>');
+                //alert($('.user-item-id' + $(parent).attr('itemid')).html());
             }
             else {
                 var userId = $(ctl).val();
-                var newArray = Array();
+                var index = -1;
                 $.each(selectedUsers, function (i, element) {
-                    //alert(element.itemId + ' :' + $(parent).attr('itemid') + ' , ' + element.userId + ' : ' + userId);
-                    if (element.itemId != $(parent).attr('itemid') && element.userId != userId) {
-                        newArray.push(element);
+                    if (element.itemId == $(parent).attr('itemid') && element.userId == userId) {
+                        index = i;
                     }
                 });
-                selectedUsers = newArray;
-            }
 
-            alert(JSON.stringify(selectedUsers));
+                if (index > -1) {
+                    selectedUsers.splice(index, 1);
+                }
+
+                removePhoto($(parent).attr('itemid'), user);
+            }
+            
+            var users = new Array();
+            $.each(selectedUsers, function (i, user) {
+                if ($(parent).attr('itemid') == user.itemId) {
+                    users.push(user.userId);
+                }
+            });
+            alert(JSON.stringify(items));
+            updateItemUsers($(parent).attr('itemid'), JSON.stringify(users));
+
+            //alert(JSON.stringify(selectedUsers));
         }
+
+        function addPhoto(itemId, userName) {
+            $('.user-item-id' + itemId).append('<div class="' + userName + '"><img height="30" width="30" src="pictures/' + userName + '.jpg"></div>');
+        }
+
+        function removePhoto(itemId, userName) {
+            $('.user-item-id' + itemId).find('div.' + userName).remove();
+        }
+
         var selectedUsers = new Array();
+
+        renderBoard();
+
     </script>
 
     
@@ -209,7 +181,9 @@
 
             data.push({ Id: gId++, Label: categoryName });
             
-            renderBoard();       
+            renderBoard();
+
+            return false;
         });
 
     </script>
