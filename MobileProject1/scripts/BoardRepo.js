@@ -89,6 +89,28 @@ function BoardRepo() {
                 
             }
         });
+
+        return ret;
+    }
+
+    this.PostItem = function (Item) {
+        var ret;
+
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(Item),
+            url: "http://localhost:61346/api/values",
+            contentType: "application/json",
+            success: function (data) {
+
+                if (data > 0)
+                {
+                    ret = data;
+                }
+
+            }
+        });
+
         return ret;
     }
 
