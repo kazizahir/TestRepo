@@ -33,7 +33,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="App_Resources\Android\AndroidManifest.xml" />
-    <Content Include="cd.js" />
     <Content Include="cordova.android.js" />
     <Content Include="cordova.ios.js" />
     <Content Include="cordova.wp8.js" />

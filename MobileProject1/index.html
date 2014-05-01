@@ -15,7 +15,7 @@
             position: fixed;
             top: 35% ;
             left: 20%;
-             background-color: rgba(59, 63, 75, .7);
+            background-color: rgba(59, 63, 75, .7);
             border: solid 1px white;
             padding:10px;
         }
@@ -38,14 +38,32 @@
         </div>
 
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
+    
+    
+    <script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>
+
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
     <script type="text/javascript" src="scripts/JavaScript2.js"></script>
     <script type="text/javascript" src="scripts/BoardRepo.js"></script>
 
     <script type="text/javascript">
+        var myBoard = {Id:2};
+        var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
 
-        var board = new BoardRepo();
+        
+            socket.on(myBoard.Id.toString(), function (d) {
+                renderBoard();
+            });
+        
+
+        function _Broadcast(boardId) {
+                setTimeout(function () {
+                    socket.emit('boardUpdated', { Channel: boardId.toString() });
+                }, 100);
+        };
+        
+        var board = new BoardRepo(_Broadcast);
 
         //board.AddCategory(1, 'Test Category');
         //var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
@@ -53,8 +71,8 @@
           //  { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange' }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white' }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue' }];
 
 
-        var data = board.GetCategories(1);
-        var items = board.GetBoardItems(1);
+        var data = board.GetCategories(myBoard.Id);
+        var items = board.GetBoardItems(myBoard.Id);
 
         board.PostItem(items[1]);
 
@@ -75,7 +93,10 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id && items[i].CategoryId != catId) {
                     items[i].CategoryId = catId;
-                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    
+                    //_Broadcast('1', 'ItemUpdated', items[i]);
+                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
                     return;
                 }
             }
@@ -85,7 +106,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Label = label;
-                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     return;
                 }
             }
@@ -95,13 +116,17 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Color = color;
-                    board.UpdateItem(1, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     return;
                 }
             }
         }
 
         function renderBoard() {
+            data = board.GetCategories(myBoard.Id);
+            items = board.GetBoardItems(myBoard.Id);
+
+
             $('#columns').empty();
             for (var i = 0; i < data.length; i++) {
                 $('#columns').append($('<ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;background-color:green;height:26px;"><h3>' + data[i].Label + '<button style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul>'));
@@ -111,9 +136,8 @@
                 $(this).click(function () {
                     //repository.CreateItem();
                     var colId = $(this).attr('catId');                    
-                    var itemId = board.AddItem(1, colId, '', 'color-green', 'Test Description');
-                    alert(itemId);
-                    items.push({ Id: itemId, Label: '', Description: 'Test Description', CategoryId: colId, Color: 'color-green' });
+                    var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
+                    //items.push({ Id: itemId, Label: '', Description: 'Test Description', CategoryId: colId, Color: 'color-green' });
                     renderBoard();
                     $('li#' + (itemId)).find('.edit').click();
 
@@ -129,10 +153,8 @@
         }
 
         renderBoard();
-        
-        
-    </script>
 
+    </script>
     
 
     <script type="text/javascript">
@@ -140,8 +162,8 @@
             var categoryName = $('#columnName').val();
             if (categoryName == '')
                 return;
-            var catId = board.AddCategory(1, categoryName);
-            data.push({ Id: catId, Label: categoryName });
+            var catId = board.AddCategory(myBoard.Id, categoryName);
+            //data.push({ Id: catId, Label: categoryName });
             
             renderBoard();       
         });
