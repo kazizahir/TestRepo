@@ -71,26 +71,25 @@
                     $('<a href="#" class="edit">EDIT</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ backgroundPosition: '-66px 0', width: '55px' })
+                        $(this).css({ background: 'url(styles/images/ok.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find('.edit-box').show().find('input').focus();
                         return false;
                     }, function () {
-                        $(this).css({ backgroundPosition: '', width: '' })
+                        $(this).css({ background: 'url(styles/images/edit.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find('.edit-box').hide();
                         return false;
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
-                        .append('<ul><li class="item"><label>Change the title?</label><input value="' + $('h3', this).text() + '"/></li>')
+                        .append('<ul><li class="item"><input value="' + $('.item-label', this).text() + '"/></li>')
                         .append((function () {
-                            var colorList = '<li class="item"><label>Available colors:</label><ul class="colors">';
+                            var colorList = '<li class="item"><label>Color:</label><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {
                                 colorList += '<li class="' + this + '"/>';
                             });
                             return colorList + '</ul>';
                         })())
-                        //.append('<select class="select-user"><option value="muzahid">Muzahid</option><option value="kazi">Kazi</option></select>')
                         .append('</ul>')
                         .insertAfter($(settings.handleSelector, this));
                 }
@@ -109,20 +108,6 @@
                                 .find(settings.contentSelector).show();
                         return false;
                     }).prependTo($(settings.handleSelector, this));
-
-                    //var addUser = $('<a href="#userPopup" data-rel="popup" data-transition="pop" class="add-user">ADD USER</a>');
-                    //addUser.mousedown(function (e) {
-                    //    e.stopPropagation();
-
-                    //}).toggle(function () {
-                    //    //JQuery('.users-div').dialog();
-
-                    //    return false;
-                    //}, function () {
-                        
-                    //    return false;
-                    //});
-                    //add.prependTo($(settings.handleSelector, this));
                 }
             });
 
@@ -131,7 +116,9 @@
                     //Note:Kazi
                     updateItemLabel($(this).parents('li.widget').attr('id'), $(this).val());
 
-                    $(this).parents(settings.widgetSelector).find('h3').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+                    //$(this).parents(settings.widgetSelector).find('h3').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+
+                    $(this).parents(settings.widgetSelector).find('.item-label').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
                 $('ul.colors li', this).click(function () {
 

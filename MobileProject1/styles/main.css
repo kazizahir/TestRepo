@@ -172,8 +172,9 @@ input#columnName {
 }
 
 div.ui-input-text {
-    float: right;
+    /*float: right;*/
     margin-right: 5px;
+    margin-left: 5px;
 }
 
 div.item-label {
@@ -206,7 +207,7 @@ div.column-container {
 }
 
 div#columns {
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 ::-webkit-scrollbar {
