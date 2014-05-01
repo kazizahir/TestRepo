@@ -18,7 +18,7 @@
         jQuery.noConflict();
     </script>
 
-    <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script>
 
     <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, width=device-width" />
@@ -26,6 +26,7 @@
     <script src="cordova.js" type="text/javascript"></script>
 </head>
 <body>
+
     <div style="height: 55px;">
         <button id="AddColumn" style="float:right;">+</button>
         <input type="text" id="columnName" style="float:right;"/>
@@ -89,13 +90,13 @@
             }
 
             for (var i = 0; i < items.length; i++) {
-                var addUserPopup = '<a id="popup:' + items[i].Id + '" href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-role="popup"><div style="background-color: lightgrey;font-family: arial;font-size: 12px;font-weight: bold;">Select user(s)</div><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
-                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="itemid-' + items[i].Id + '"><div class="item-label">' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
+                var addUserPopup = '<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="item-label">' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
             }
 
-            var userMenu = $('<div class="user-menu" style=""><ul id="menu"></ul></div>');
+            var userMenu = $('<div class="user-menu" style=""><ul id="menu"><div class="ui-field-contain"><fieldset data-role="controlgroup"></fieldset></div></ul></div>');
             for (var i = 0; i < users.length; i++) {
-                userMenu.find('#menu').append('<table><tr><td><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"></td><td style="padding-left: 30px;"><img width="30" height="30" border="1" src="pictures/' + users[i].Name + '.jpg"/></td><td><div style="font-size: 14px;">' + users[i].Name + '</div></td></span>');
+                userMenu.find('#menu fieldset').append('<label><span><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"><img width="30" height="30" border="1" src="pictures/' + users[i].Name + '.jpg"/>' + users[i].Name + '</span></label>');
             }
             $('.users-div').append(userMenu);
 
@@ -105,6 +106,7 @@
 
             renderUsers();
             initTouch();
+
         }
 
         function renderUsers() {
@@ -112,7 +114,7 @@
 			    $.each(item.Users, function (j, userId) {
 			        $.each(users, function (k, user) {
 			            if (user.Id == userId) {
-			                addPhoto(item.Id, user.Name);
+			                addPhoto(item.Id, user.Name, user.Phone);
 			                selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
 			                
 			                $.each($('.users-div'), function (i, div) {
@@ -137,11 +139,18 @@
             }
 
             var itemId = $(parent).attr('itemid');
+            var userPhone = '';
+            $.each(users, function (i, aUser) {
+                if (aUser.Id == userId) {
+                    userPhone = aUser.Phone;
+                    return;
+                }
+            });
 
             if ($(ctl).is(':checked')) {
                 selectedUsers.push({ itemId: itemId, userId: userId, userName: user });
 
-                addPhoto(itemId, user);
+                addPhoto(itemId, user, userPhone);
 
                 //alert($('.user-item-id' + itemId).html());
             }
@@ -172,8 +181,8 @@
             //alert(JSON.stringify(selectedUsers));
         }
 
-        function addPhoto(itemId, userName) {
-            $('.user-item-id' + itemId).append('<div class="' + userName + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></div>');
+        function addPhoto(itemId, userName, phone) {
+            $('.user-item-id' + itemId).append('<div class="' + userName + '"><a href="tel:' + phone + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></a></div>');
         }
 
         function removePhoto(itemId, userName) {
@@ -232,7 +241,7 @@
             }
         }
         
-        $(document).ready(function () {
+        //$(document).ready(function () {
             renderBoard();
 
             $('h3 button[catId]').each(function () {
@@ -244,7 +253,20 @@
 
                 });
             });
-        });
+ 
+        //});
+
+
+        var globalItemId = undefined;
+        function setItemIdToGlobal(id) {
+            globalItemId = id;
+        }
+
+        function moveCard(cardId) {
+            if (globalItemId == undefined) return;
+            updateItem(globalItemId, cardId);
+            renderBoard();
+        }
     </script>
 
     <script type="text/javascript">

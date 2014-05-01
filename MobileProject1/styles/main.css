@@ -162,6 +162,10 @@ div.ui-page {
     width: 25px!important;
 }
 
+#column-container .btn-add {
+    margin: -3px;
+}
+
 button#AddColumn {
     width: 22px!important;
     margin-top: 14px;

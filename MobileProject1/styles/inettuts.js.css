@@ -11,6 +11,17 @@
     outline: none;
 }
 
+.widget-head a.move  {
+    float: right;
+    display: inline;
+    background: url(images/move.png) no-repeat;
+    width: 14px;
+    height: 14px;
+    margin: 3px 4px 3px 0;
+    text-indent: -9999em;
+    outline: none;
+}
+
 .widget-head a.edit  {
     float: right;
     display: inline;

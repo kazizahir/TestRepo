@@ -67,11 +67,22 @@
                     }).appendTo($(settings.handleSelector, this));
                 }
 
+
                 if (thisWidgetSettings.editable) {
+                    var categories = '<ul data-role="listview" data-inset="true" style="min-width:210px;">';
+                    $.each(data, function (i, category) {
+                        categories += '<li><a href="#" data-rel="back" onclick="moveCard(\'' + category.Id + '\');">' + category.Label + '</a></li>';
+                    });
+                    categories += '</ul>';
+                    $('<a href="#popupMove" onclick="setItemIdToGlobal($(this).parents(\'li.widget\').attr(\'itemid\'));" data-rel="popup" data-transition="pop" class="move">MOVE</a><div data-role="popup" data-theme="b" id="popupMove">' + categories + '</div>').mousedown(function (e) {
+                        e.stopPropagation();
+                    }).appendTo($(settings.handleSelector, this));
+                    
+
                     $('<a href="#" class="edit">EDIT</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ background: 'url(styles/images/ok.png) no-repeat' })
+                        $(this).css({ background: 'url(styles/images/floppy.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find('.edit-box').show().find('input').focus();
                         return false;
@@ -110,6 +121,7 @@
                     }).prependTo($(settings.handleSelector, this));
                 }
             });
+
 
             $('.edit-box').each(function () {
                 $('input', this).keyup(function () {
