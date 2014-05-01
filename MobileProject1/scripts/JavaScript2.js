@@ -93,7 +93,8 @@
                         return false;
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
-                        .append('<ul><li class="item"><input value="' + $('.item-label', this).text() + '"/></li>')
+                        .append('<ul><li class="item"><input class="item-label-edit" value="' + $('.item-label', this).text() + '"/></li>')
+                        .append('<li class="item"><input class="item-desc-edit" value="' + $('.widget-content ul li', this).text() + '"></li>')
                         .append((function () {
                             var colorList = '<li class="item"><label>Color:</label><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {
@@ -124,13 +125,18 @@
 
 
             $('.edit-box').each(function () {
-                $('input', this).keyup(function () {
+                $('input.item-label-edit', this).keyup(function () {
                     //Note:Kazi
-                    updateItemLabel($(this).parents('li.widget').attr('id'), $(this).val());
+                    updateItemLabel($(this).parents('li.widget').attr('itemid'), $(this).val());
 
                     //$(this).parents(settings.widgetSelector).find('h3').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
 
                     $(this).parents(settings.widgetSelector).find('.item-label').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+                });
+                $('input.item-desc-edit', this).keyup(function () {
+                    updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).val());
+
+                    $(this).parents(settings.widgetSelector).find('.widget-content ul li').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
                 $('ul.colors li', this).click(function () {
 

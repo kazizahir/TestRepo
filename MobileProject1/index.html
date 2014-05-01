@@ -74,6 +74,15 @@
             }
         }
 
+        function updateItemDesc(id, desc) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Description = desc;
+                    return;
+                }
+            }
+        }
+
         function updateItemUsers(id, users) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
