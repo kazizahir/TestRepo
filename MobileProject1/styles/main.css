@@ -221,6 +221,10 @@ div#columns {
     overflow-x: auto;
 }
 
+img.user-image {
+    margin: 3px!important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

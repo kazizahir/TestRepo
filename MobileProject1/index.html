@@ -173,7 +173,7 @@
         }
 
         function addPhoto(itemId, userName) {
-            $('.user-item-id' + itemId).append('<div class="' + userName + '"><img height="30" width="30" src="pictures/' + userName + '.jpg"></div>');
+            $('.user-item-id' + itemId).append('<div class="' + userName + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></div>');
         }
 
         function removePhoto(itemId, userName) {
@@ -233,7 +233,7 @@
         }
         
         $(document).ready(function () {
-            //renderBoard();
+            renderBoard();
 
             $('h3 button[catId]').each(function () {
                 $(this).click(function () {
