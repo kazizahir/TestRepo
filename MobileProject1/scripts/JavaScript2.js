@@ -99,12 +99,12 @@
                     $('<a href="#" class="collapse">COLLAPSE</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ backgroundPosition: '-38px 0' })
+                        $(this).css({ background: 'url(styles/images/down.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find(settings.contentSelector).hide();
                         return false;
                     }, function () {
-                        $(this).css({ backgroundPosition: '' })
+                        $(this).css({ background: 'url(styles/images/up.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find(settings.contentSelector).show();
                         return false;
