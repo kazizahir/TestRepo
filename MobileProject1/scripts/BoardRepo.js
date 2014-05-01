@@ -1,5 +1,4 @@
-function BoardRepo() {
-
+function BoardRepo(updateDoneCallback) {
     this.GetBoardItems = function (boardId) {
         var ret;
         $.ajax({
@@ -57,6 +56,7 @@ function BoardRepo() {
 
             success: function (data) {
                 ret = data;
+                updateDoneCallback(boardId);
             }
         });
         return ret;
@@ -74,6 +74,8 @@ function BoardRepo() {
                 ret = data;
             }
         });
+
+        
         return ret;
     }
 
@@ -86,9 +88,13 @@ function BoardRepo() {
             url: 'http://localhost:61346/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description + '&&ItemId=' + ItemId,
 
             success: function (data) {
-                
+                updateDoneCallback(boardId);
             }
         });
+
+        
+
+
         return ret;
     }
 

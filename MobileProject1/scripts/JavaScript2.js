@@ -110,12 +110,17 @@
                     }).prependTo($(settings.handleSelector, this));
                 }
             });
+            
+            $('.edit').click(function () {
+                $(this).parents('li.widget').find('.edit-box').each(function () {
+                    if ($(this).css('display') == 'none') {
+                        updateItemLabel($(this).parents('li.widget').attr('id'), $(this).find('input').val());
+                    }
+                });
+            });
 
             $('.edit-box').each(function () {
                 $('input', this).keyup(function () {
-                    //Note:Kazi
-                    updateItemLabel($(this).parents('li.widget').attr('id'), $(this).val());
-
                     $(this).parents(settings.widgetSelector).find('h3').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
                 $('ul.colors li', this).click(function () {
