@@ -176,6 +176,17 @@ div.ui-input-text {
     margin-right: 5px;
     margin-left: 5px;
 }
+#columnName {
+    background-color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+/*.columnNameContainer {
+    width: 200px;
+    float: right;
+    background-color: white;
+    padding-top: 10px;
+}*/
 
 div.item-label {
    padding-left: 5px; 

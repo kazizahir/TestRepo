@@ -39,6 +39,9 @@
 
     <script type="text/javascript">
         var gId = 8;
+
+        var selectedUsers = new Array();
+
         var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }, { Id: 4, Label: 'Orange' }];
         var items = [{ Id: 1, Label: 'Test1 Test1 Test1 Test1 Test1 Test1 Test1 Test1 Test1 Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red', Users: ['1', '2'] }, { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green', Users: ['1'] }, { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow', Users: ['2'] },
             { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange', Users: ['1'] }, { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white', Users: ['2'] }, { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue', Users: ['2'] }];
@@ -85,16 +88,6 @@
                 $('#columns').append($('<div id="column-container" class="column-container"><ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;height:26px;"><h3 style="padding: 8px;">' + data[i].Label + '<button class="btn-add" style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul></div>'));
             }
 
-            $('h3 button[catId]').each(function () {
-                $(this).click(function () {
-                    //repository.CreateItem();
-                    items.push({ Id: gId++, Label: '', CategoryId: $(this).attr('catId'), Color: 'color-green' });
-                    renderBoard();
-                    $('li#' + (gId - 1)).find('.edit').click();
-
-                });
-            });
-
             for (var i = 0; i < items.length; i++) {
                 var addUserPopup = '<a id="popup:' + items[i].Id + '" href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-role="popup"><div style="background-color: lightgrey;font-family: arial;font-size: 12px;font-weight: bold;">Select user(s)</div><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
                 $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="itemid-' + items[i].Id + '"><div class="item-label">' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
@@ -107,12 +100,15 @@
             $('.users-div').append(userMenu);
 
             iNettuts.init();
+            
+            selectedUsers = new Array();
 
             renderUsers();
+            initTouch();
         }
 
         function renderUsers() {
-			$.each(items, function(i, item){
+            $.each(items, function (i, item) {
 			    $.each(item.Users, function (j, userId) {
 			        $.each(users, function (k, user) {
 			            if (user.Id == userId) {
@@ -164,14 +160,14 @@
                 removePhoto(itemId, user);
             }
 
-            var users = new Array();
+            var usersIds = new Array();
             $.each(selectedUsers, function (i, user) {
                 if ($(parent).attr('itemid') == user.itemId) {
-                    users.push(user.userId);
+                    usersIds.push(user.userId);
                 }
             });
             //alert(JSON.stringify(items));
-            updateItemUsers($(parent).attr('itemid'), JSON.stringify(users));
+            updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
 
             //alert(JSON.stringify(selectedUsers));
         }
@@ -184,41 +180,15 @@
             $('.user-item-id' + itemId).find('div.' + userName).remove();
         }
 
-        var selectedUsers = new Array();
-
-        renderBoard();
-
-        $(document).ready(function () {
-
+        function initTouch() {
             var totalWidth = (data.length + 1) * 306;
             $('div#columns').css('width', totalWidth + 'px');
             touchScrollX("columns");
 
-
             $('div.column-container').css('height', $(window).height() - 75 + 'px');            
             touchScrollY("column-container");
+        }
 
-
-        });        
-        
-    </script>
-
-    <script type="text/javascript">
-        $('#AddColumn').click(function () {
-            var categoryName = $('#columnName').val();
-            if (categoryName == '')
-                return;
-
-            data.push({ Id: gId++, Label: categoryName });
-
-            renderBoard();
-
-            return false;
-        });
-
-    </script>
-
-    <script type="text/javascript">
         function isTouchDevice() {
             try {
                 document.createEvent("TouchEvent");
@@ -261,6 +231,34 @@
                 }, false);
             }
         }
+        
+        $(document).ready(function () {
+            //renderBoard();
+
+            $('h3 button[catId]').each(function () {
+                $(this).click(function () {
+                    //repository.CreateItem();                    
+                    items.push({ Id: gId++, Label: '', Description: '', CategoryId: $(this).attr('catId'), Color: 'color-green', Users: [] });
+                    renderBoard();
+                    $('li#' + (gId - 1)).find('.edit').click();
+
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $('#AddColumn').click(function () {
+            var categoryName = $('#columnName').val();
+            if (categoryName == '')
+                return;
+
+            data.push({ Id: gId++, Label: categoryName });
+
+            renderBoard();
+
+            return false;
+        });
     </script>
 </body>
 </html>
