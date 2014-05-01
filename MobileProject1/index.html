@@ -15,7 +15,7 @@
             position: fixed;
             top: 35% ;
             left: 20%;
-             background-color: rgba(59, 63, 75, .7);
+            background-color: rgba(59, 63, 75, .7);
             border: solid 1px white;
             padding:10px;
         }
@@ -38,7 +38,7 @@
         </div>
 
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
-
+    
     
     <script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>
 
@@ -50,36 +50,17 @@
     <script type="text/javascript">
         var myBoard = {Id:2};
         var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
-        socket.on(myBoard.Id.toString(), function (d) {
-            //var found = false;
 
-            //var source = data;
-            //if (d.EventType == 'ItemUpdated')
-            //    source = items;
-
-            //for (var i = 0; i < source.length; i++) {
-            //    if (d.EventData.Id == source[i].Id) {
-            //        source[i] = d.EventData;
-            //        found = true;
-            //        break;
-            //    }
-            //}
-
-            //if (!found) {
-            //    source.push(d.Item);
-
-            //}
-
-            renderBoard();
-
-        });
-
+        
+            socket.on(myBoard.Id.toString(), function (d) {
+                renderBoard();
+            });
+        
 
         function _Broadcast(boardId) {
-            
-            setTimeout(function () {
-                socket.emit('boardUpdated', { Channel: boardId.toString() });
-            }, 100);
+                setTimeout(function () {
+                    socket.emit('boardUpdated', { Channel: boardId.toString() });
+                }, 100);
         };
         
         var board = new BoardRepo(_Broadcast);
