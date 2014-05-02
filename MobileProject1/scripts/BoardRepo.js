@@ -1,10 +1,12 @@
 function BoardRepo(updateDoneCallback) {
+    var basePath = 'http://carddemo.mob.bd';
+
     this.GetBoardItems = function (boardId) {
         var ret;
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardIdforItems='+boardId,
+            url: basePath + '/api/values/?boardIdforItems='+boardId,
             
             success: function (data) {
                 var dataItem = JSON.parse(data);
@@ -20,7 +22,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardIdforCategory=' + boardId,
+            url: basePath + '/api/values/?boardIdforCategory=' + boardId,
 
             success: function (data) {
                 var dataItem = JSON.parse(data);
@@ -36,7 +38,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardIdForUser=' + boardId,
+            url: basePath + '/api/values/?boardIdForUser=' + boardId,
 
             success: function (data) {
                 var dataItem = JSON.parse(data);
@@ -52,7 +54,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardId=' + boardId + '&&categoryName=' + categoryNmae,
+            url: basePath + '/api/values/?boardId=' + boardId + '&&categoryName=' + categoryNmae,
 
             success: function (data) {
                 ret = data;
@@ -68,7 +70,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description,
+            url: basePath + '/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description,
 
             success: function (data) {
                 ret = data;
@@ -85,7 +87,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             async: false,
             type: 'GET',
-            url: 'http://localhost:61346/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description + '&&ItemId=' + ItemId,
+            url: basePath + '/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description + '&&ItemId=' + ItemId,
 
             success: function (data) {
                 updateDoneCallback(boardId);
@@ -101,7 +103,7 @@ function BoardRepo(updateDoneCallback) {
         $.ajax({
             type: "POST",
             data: JSON.stringify(Item),
-            url: "http://localhost:61346/api/values",
+            url: basePath + '/api/values',
             contentType: "application/json",
             success: function (data) {
 
