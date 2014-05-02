@@ -60,7 +60,7 @@
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
     
     
-    <script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>
+    <!--<script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>-->
 
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
@@ -69,19 +69,20 @@
 
     <script type="text/javascript">
 
-        var myBoard = {Id:1};
-        var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
+        var myBoard = { Id: 1 };
+
+        //var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
 
         
-            socket.on(myBoard.Id.toString(), function (d) {
-                renderBoard();
-            });
+        //    socket.on(myBoard.Id.toString(), function (d) {
+        //        renderBoard();
+        //    });
         
 
         function _Broadcast(boardId) {
-                setTimeout(function () {
-                    socket.emit('boardUpdated', { Channel: boardId.toString() });
-                }, 100);
+                //setTimeout(function () {
+                //    socket.emit('boardUpdated', { Channel: boardId.toString() });
+                //}, 100);
         };
         
         var board = new BoardRepo(_Broadcast);
