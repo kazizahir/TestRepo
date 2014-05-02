@@ -1,5 +1,6 @@
 function BoardRepo(updateDoneCallback) {
-    var basePath = 'http://carddemo.mob.bd';
+    //var basePath = 'http://carddemo.mob.bd';
+    var basePath = 'http://localhost:61346/';
 
     this.GetBoardItems = function (boardId) {
         var ret;

@@ -20,7 +20,7 @@
             top: 35% ;
             left: 20%;
             background-color: rgba(59, 63, 75, .7);
-            border: solid 1px white;
+            border: solid 1px rgba(59, 63, 75, .7);
             padding:10px;
         }
     </style>
@@ -39,16 +39,16 @@
 <body>
 
     <div>
-    <div id="LoginPage"  style="display:none">
-        <div><div style="color:white; width:70px; float:left">User: </div><div style="float:left; "><input type="text" value="" /></div></div>
-        <div style="clear:both;"><div style="color:white; width:70px; float:left">Password: </div><div style="float:left; "><input type="password" value="" /></div></div>
+    <div id="LoginPage" >
+        <div><input type="text" value="Username...." /></div>
+        <div style="clear:both;"><input type="password" value="Password...." /></div>
         <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
     </div>
         </div>
     
-    <div id="main">
+    <div id="main"  style="display:none">
  
-    <div style="height: 55px;">
+    <div style="height: 55px; " >
         <button id="AddColumn" style="float:right;">+</button>
         <input type="text" id="columnName" style="float:right;"/>
     </div>
@@ -60,7 +60,7 @@
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
     
     
-    <!--<script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>-->
+    
 
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
@@ -96,7 +96,7 @@
         var data = board.GetCategories(myBoard.Id);
         var items = board.GetBoardItems(myBoard.Id);
 
-        board.PostItem(items[1]);
+        //board.PostItem(items[1]);
 
 
         function ShowBoard() {            
@@ -122,28 +122,36 @@
                     items[i].CategoryId = catId;
                     
                     //_Broadcast('1', 'ItemUpdated', items[i]);
-                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    
+                    board.PostItem(items[i]);
                     //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
                     return;
                 }
             }
         }
 
-        function updateItemLabel(id, label) {
+        function updateItemLabel(id, label) {            
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Label = label;
-                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    //alert(JSON.stringify(items[i]));
+                    board.PostItem(items[i]);
                     return;
                 }
             }
         }
 
-        function updateItemColor(id, color) {
+        function updateItemColor(id, color) {                        
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Color = color;
-                    board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    alert(items[i].Color);
+                    //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
+                    //alert(items[i]);
+                    board.PostItem(items[i]);
+                    
                     return;
                 }
             }
@@ -159,9 +167,12 @@
         }
 
         function updateItemUsers(id, users) {
+            
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Users = users;
+                    //alert(JSON.stringify(items[i]));
+                    //alert(items[i].Users);
                     return;
                 }
             }
@@ -264,7 +275,9 @@
                 }
             });
             //alert(JSON.stringify(items));
-            updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
+            //alert(JSON.stringify(usersIds));
+            //updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
+            updateItemUsers($(parent).attr('itemid'), usersIds);
 
             //alert(JSON.stringify(selectedUsers));
         }
