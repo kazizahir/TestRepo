@@ -2,13 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>iNettuts - Welcome!</title>
+    <title>CardView - Welcome!</title>
+
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, width=device-width" />
+    <script src="cordova.js" type="text/javascript"></script>
 
     <link href="styles/inettuts.css" rel="stylesheet" type="text/css" />
+    <link href="styles/main.css" rel="stylesheet" type="text/css" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/jquery.mobile-1.4.2.css">
 
-    <script src="cordova.js" type="text/javascript"></script>
+
 
     <style type="text/css">
         #LoginPage {
@@ -21,21 +25,37 @@
         }
     </style>
 
+    <script type='text/javascript' src='scripts/jquery-1.9.1.min.js'></script>
+    <script type="text/javascript" src="scripts/jquery.mobile-1.4.2.js"></script>
+    <script type="text/javascript" src="scripts/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        jQuery.noConflict();
+    </script>
+
+    <script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script>
+    
 </head>
 <body>
+
     <div>
-    <div id="LoginPage">
+    <div id="LoginPage"  style="display:none">
         <div><div style="color:white; width:70px; float:left">User: </div><div style="float:left; "><input type="text" value="" /></div></div>
         <div style="clear:both;"><div style="color:white; width:70px; float:left">Password: </div><div style="float:left; "><input type="password" value="" /></div></div>
         <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
     </div>
         </div>
     
-    <div id="main" style="display:none">
-    <div>
-        <input type="text" id="columnName"/><button id="AddColumn">+</button></div>
+    <div id="main">
+ 
+    <div style="height: 55px;">
+        <button id="AddColumn" style="float:right;">+</button>
+        <input type="text" id="columnName" style="float:right;"/>
+    </div>
+
     <div id="columns"></div>
         </div>
+
 
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
     
@@ -48,6 +68,7 @@
     <script type="text/javascript" src="scripts/BoardRepo.js"></script>
 
     <script type="text/javascript">
+
         var myBoard = {Id:2};
         var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
 
@@ -82,9 +103,14 @@
             $("#main").show();
         }
 
+        var users = [{ Id: 1, Name: 'Muzahid', Email: 'mail.muzahid@gmail.com', Phone: '8802132132', Photo: 'http://someimageurl.com', BoardId: '1' }, { Id: 2, Name: 'Kazi', Email: 'zahir.kazi@gmail.com', Phone: '88021327325', Photo: 'http://someimageurl.com', BoardId: '1' }];
+
+
+
         function updateCallback(e, ui) {
             var newCatId = ui.element[0].id;
-            var itemId = ui.item[0].id;
+            var itemId = $(ui.item[0]).attr('itemid');
+            
             updateItem(itemId, newCatId);
 
         }
@@ -122,6 +148,24 @@
             }
         }
 
+        function updateItemDesc(id, desc) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Description = desc;
+                    return;
+                }
+            }
+        }
+
+        function updateItemUsers(id, users) {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id == id) {
+                    items[i].Users = users;
+                    return;
+                }
+            }
+        }
+
         function renderBoard() {
             data = board.GetCategories(myBoard.Id);
             items = board.GetBoardItems(myBoard.Id);
@@ -129,8 +173,163 @@
 
             $('#columns').empty();
             for (var i = 0; i < data.length; i++) {
-                $('#columns').append($('<ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;background-color:green;height:26px;"><h3>' + data[i].Label + '<button style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul>'));
+                $('#columns').append($('<div id="column-container" class="column-container"><ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;height:26px;"><h3 style="padding: 8px;">' + data[i].Label + '<button class="btn-add" style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul></div>'));
             }
+
+            for (var i = 0; i < items.length; i++) {
+                var addUserPopup = '<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="item-label">' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
+            }
+
+            var userMenu = $('<div class="user-menu" style=""><ul id="menu"><div class="ui-field-contain"><fieldset data-role="controlgroup"></fieldset></div></ul></div>');
+            for (var i = 0; i < users.length; i++) {
+                userMenu.find('#menu fieldset').append('<label><span><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"><img width="30" height="30" border="1" src="pictures/' + users[i].Name + '.jpg"/>' + users[i].Name + '</span></label>');
+            }
+            $('.users-div').append(userMenu);
+
+            iNettuts.init();
+            
+            selectedUsers = new Array();
+
+            renderUsers();
+            initTouch();
+
+        }
+
+        function renderUsers() {
+            $.each(items, function (i, item) {
+			    $.each(item.Users, function (j, userId) {
+			        $.each(users, function (k, user) {
+			            if (user.Id == userId) {
+			                addPhoto(item.Id, user.Name, user.Phone);
+			                selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
+			                
+			                $.each($('.users-div'), function (i, div) {
+			                    if ($(div).attr('itemid') == item.Id) {
+			                        $(div).find('input[type="checkbox"][value=' + userId + ']').attr('checked', 'true');
+			                    }
+			                });
+			            }
+			        });					
+				});
+			});
+        }
+
+        function selectOrUnselectUser(ctl, user) {
+        	var userId = $(ctl).val();
+            var parent = $(ctl);
+            while (true) {
+                parent = $(parent).parent();
+                if ($(parent).attr('class') == 'users-div') {
+                    break;
+                }
+            }
+
+            var itemId = $(parent).attr('itemid');
+            var userPhone = '';
+            $.each(users, function (i, aUser) {
+                if (aUser.Id == userId) {
+                    userPhone = aUser.Phone;
+                    return;
+                }
+            });
+
+            if ($(ctl).is(':checked')) {
+                selectedUsers.push({ itemId: itemId, userId: userId, userName: user });
+
+                addPhoto(itemId, user, userPhone);
+
+                //alert($('.user-item-id' + itemId).html());
+            }
+            else {
+                var index = -1;
+                $.each(selectedUsers, function (i, element) {
+                    if (element.itemId == itemId && element.userId == userId) {
+                        index = i;
+                    }
+                });
+
+                if (index > -1) {
+                    selectedUsers.splice(index, 1);
+                }
+
+                removePhoto(itemId, user);
+            }
+
+            var usersIds = new Array();
+            $.each(selectedUsers, function (i, user) {
+                if ($(parent).attr('itemid') == user.itemId) {
+                    usersIds.push(user.userId);
+                }
+            });
+            //alert(JSON.stringify(items));
+            updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
+
+            //alert(JSON.stringify(selectedUsers));
+        }
+
+        function addPhoto(itemId, userName, phone) {
+            $('.user-item-id' + itemId).append('<div class="' + userName + '"><a href="tel:' + phone + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></a></div>');
+        }
+
+        function removePhoto(itemId, userName) {
+            $('.user-item-id' + itemId).find('div.' + userName).remove();
+        }
+
+        function initTouch() {
+            var totalWidth = (data.length + 1) * 306;
+            $('div#columns').css('width', totalWidth + 'px');
+            touchScrollX("columns");
+
+            $('div.column-container').css('height', $(window).height() - 75 + 'px');            
+            touchScrollY("column-container");
+        }
+
+        function isTouchDevice() {
+            try {
+                document.createEvent("TouchEvent");
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function touchScrollY(id) {
+            if (isTouchDevice()) { //if touch events exist...
+                var el = document.getElementById(id);
+                var scrollStartPos = 0;
+
+                document.getElementById(id).addEventListener("touchstart", function (event) {
+                    scrollStartPos = this.scrollTop + event.touches[0].pageY;
+                    event.preventDefault();
+                }, false);
+
+                document.getElementById(id).addEventListener("touchmove", function (event) {
+                    this.scrollTop = scrollStartPos - event.touches[0].pageY;
+                    event.preventDefault();
+                }, false);
+            }
+        }
+
+        function touchScrollX(id) {
+            if (isTouchDevice()) { //if touch events exist...
+                var el = document.getElementById(id);
+                var scrollStartPos = 0;
+
+                document.getElementById(id).addEventListener("touchstart", function (event) {
+                    scrollStartPos = this.scrollLeft + event.touches[0].pageX;
+                    event.preventDefault();
+                }, false);
+
+                document.getElementById(id).addEventListener("touchmove", function (event) {
+                    this.scrollLeft = scrollStartPos - event.touches[0].pageX;
+                    event.preventDefault();
+                }, false);
+            }
+        }
+        
+        //$(document).ready(function () {
+            renderBoard();
 
             $('h3 button[catId]').each(function () {
                 $(this).click(function () {
@@ -138,30 +337,34 @@
                     var colId = $(this).attr('catId');                    
                     var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
                     //items.push({ Id: itemId, Label: '', Description: 'Test Description', CategoryId: colId, Color: 'color-green' });
+
                     renderBoard();
                     $('li#' + (itemId)).find('.edit').click();
 
                 });
             });
+ 
+        //});
 
-            for (var i = 0; i < items.length; i++) {
-                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" id="' + items[i].Id + '"><div class="widget-head"><h3>' + items[i].Label + ' </h3></div><div class="widget-content"><ul><li>' + items[i].Description + '</li></ul></div></li>'));
-            }
 
-            iNettuts.init();
-
+        var globalItemId = undefined;
+        function setItemIdToGlobal(id) {
+            globalItemId = id;
         }
 
-        renderBoard();
-
+        function moveCard(cardId) {
+            if (globalItemId == undefined) return;
+            updateItem(globalItemId, cardId);
+            renderBoard();
+        }
     </script>
-    
 
     <script type="text/javascript">
         $('#AddColumn').click(function () {
             var categoryName = $('#columnName').val();
             if (categoryName == '')
                 return;
+
             var catId = board.AddCategory(myBoard.Id, categoryName);
             //data.push({ Id: catId, Label: categoryName });
             

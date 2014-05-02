@@ -67,24 +67,36 @@
                     }).appendTo($(settings.handleSelector, this));
                 }
 
+
                 if (thisWidgetSettings.editable) {
+                    var categories = '<ul data-role="listview" data-inset="true" style="min-width:210px;">';
+                    $.each(data, function (i, category) {
+                        categories += '<li><a href="#" data-rel="back" onclick="moveCard(\'' + category.Id + '\');">' + category.Label + '</a></li>';
+                    });
+                    categories += '</ul>';
+                    $('<a href="#popupMove" onclick="setItemIdToGlobal($(this).parents(\'li.widget\').attr(\'itemid\'));" data-rel="popup" data-transition="pop" class="move">MOVE</a><div data-role="popup" data-theme="b" id="popupMove">' + categories + '</div>').mousedown(function (e) {
+                        e.stopPropagation();
+                    }).appendTo($(settings.handleSelector, this));
+                    
+
                     $('<a href="#" class="edit">EDIT</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ backgroundPosition: '-66px 0', width: '55px' })
+                        $(this).css({ background: 'url(styles/images/floppy.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find('.edit-box').show().find('input').focus();
                         return false;
                     }, function () {
-                        $(this).css({ backgroundPosition: '', width: '' })
+                        $(this).css({ background: 'url(styles/images/edit.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find('.edit-box').hide();
                         return false;
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
-                        .append('<ul><li class="item"><label>Change the title?</label><input value="' + $('h3', this).text() + '"/></li>')
+                        .append('<ul><li class="item"><input class="item-label-edit" value="' + $('.item-label', this).text() + '"/></li>')
+                        .append('<li class="item"><input class="item-desc-edit" value="' + $('.widget-content ul li', this).text() + '"></li>')
                         .append((function () {
-                            var colorList = '<li class="item"><label>Available colors:</label><ul class="colors">';
+                            var colorList = '<li class="item"><label>Color:</label><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {
                                 colorList += '<li class="' + this + '"/>';
                             });
@@ -98,12 +110,12 @@
                     $('<a href="#" class="collapse">COLLAPSE</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ backgroundPosition: '-38px 0' })
+                        $(this).css({ background: 'url(styles/images/down.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find(settings.contentSelector).hide();
                         return false;
                     }, function () {
-                        $(this).css({ backgroundPosition: '' })
+                        $(this).css({ background: 'url(styles/images/up.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find(settings.contentSelector).show();
                         return false;
@@ -114,14 +126,22 @@
             $('.edit').click(function () {
                 $(this).parents('li.widget').find('.edit-box').each(function () {
                     if ($(this).css('display') == 'none') {
-                        updateItemLabel($(this).parents('li.widget').attr('id'), $(this).find('input').val());
+                        updateItemLabel($(this).parents('li.widget').attr('itemid'), $(this).find('input.item-label-edit').val());
+                        updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).parents('li.widget').find('input.item-desc-edit').val());
                     }
                 });
             });
 
+
             $('.edit-box').each(function () {
-                $('input', this).keyup(function () {
-                    $(this).parents(settings.widgetSelector).find('h3').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+
+                $('input.item-label-edit', this).keyup(function () {
+                    $(this).parents(settings.widgetSelector).find('.item-label').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+                });
+                $('input.item-desc-edit', this).keyup(function () {
+                    updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).val());
+
+                    $(this).parents(settings.widgetSelector).find('.widget-content ul li').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
                 $('ul.colors li', this).click(function () {
 

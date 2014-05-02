@@ -39,13 +39,13 @@ a {color:white;}
 /* Columns section */
 #columns .column {
     float: left;
-    width: 30%;
+    width: 290px;
 		/* Min-height: */
 		min-height: 400px;
-		height: auto !important; 
+		height: auto !important;
 		height: 400px;
-        background-color:#3B3F4B;
-        margin:5px;
+        /*background-color:#3B3F4B;*/
+        
 }
 
  /*Column dividers (background-images) : 
@@ -55,7 +55,7 @@ a {color:white;}
 /*#columns #column1 .widget { margin: 30px 35px 0 25px; }
 #columns #column3 .widget { margin: 30px 25px 0 35px; }*/
 #columns .widget {
-    margin: 30px 20px 0 20px;
+    margin: 5px 5px 0 5px;
     padding: 2px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;

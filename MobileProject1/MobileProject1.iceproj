@@ -78,11 +78,20 @@
     <Content Include="jquery-mobile\styles\images\icons-36-white.png" />
     <Content Include="scripts\JavaScript1.js" />
     <Content Include="scripts\JavaScript2.js" />
+    <Content Include="scripts\jquery-ui.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\jquery.mobile-1.4.2.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="scripts\location.js" />
     <Content Include="scripts\login.js" />
     <Content Include="styles\images\buttons.gif" />
     <Content Include="styles\inettuts.css" />
     <Content Include="styles\inettuts.js.css" />
+    <Content Include="styles\jquery.mobile-1.4.2.css">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="styles\main.css" />
     <Content Include="styles\images\location.png" />
     <Content Include="styles\images\location2x.png" />

@@ -3,10 +3,21 @@
 .widget-head a.remove  {
     float: right;
     display: inline;
-    background: url(images/buttons.gif) no-repeat -24px 0;
+    background: url(images/delete.png) no-repeat;
     width: 14px;
     height: 14px;
-    margin: 8px 4px 8px 0;
+    margin: 3px 4px 3px 0;
+    text-indent: -9999em;
+    outline: none;
+}
+
+.widget-head a.move  {
+    float: right;
+    display: inline;
+    background: url(images/move.png) no-repeat;
+    width: 14px;
+    height: 14px;
+    margin: 3px 4px 3px 0;
     text-indent: -9999em;
     outline: none;
 }
@@ -14,22 +25,33 @@
 .widget-head a.edit  {
     float: right;
     display: inline;
-    background: url(images/buttons.gif) no-repeat;
+    background: url(images/edit.png) no-repeat;
     width: 24px;
     height: 14px;
     text-indent: -9999em;
-    margin: 8px 4px 8px 4px;
+    margin: 3px 4px 3px 4px;
     outline: none;
 }
 
 .widget-head a.collapse  {
     float: left;
     display: inline;
-    background: url(images/buttons.gif) no-repeat -52px 0;
+    background: url(images/up.png) no-repeat;
     width: 14px;
     height: 14px;
     text-indent: -9999em;
-    margin: 8px 0 8px 4px;
+    margin: 3px 0 3px 4px;
+    outline: none;
+}
+
+a.add-user  {
+    float: left;
+    display: inline;
+    background: url(images/user.png) no-repeat;
+    width: 14px;
+    height: 14px;
+    text-indent: -9999em;
+    margin: 3px 0 3px 4px;
     outline: none;
 }
 
