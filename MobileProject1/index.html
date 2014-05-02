@@ -12,19 +12,6 @@
 
     <link rel="stylesheet" href="styles/jquery.mobile-1.4.2.css">
 
-
-
-    <style type="text/css">
-        #LoginPage {
-            position: fixed;
-            top: 35% ;
-            left: 20%;
-            background-color: rgba(59, 63, 75, .7);
-            border: solid 1px rgba(59, 63, 75, .7);
-            padding:10px;
-        }
-    </style>
-
     <script type='text/javascript' src='scripts/jquery-1.9.1.min.js'></script>
     <script type="text/javascript" src="scripts/jquery.mobile-1.4.2.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.js"></script>
@@ -39,9 +26,9 @@
 <body>
 
     <div>
-    <div id="LoginPage" >
-        <div><input type="text" value="Username...." /></div>
-        <div style="clear:both;"><input type="password" value="Password...." /></div>
+    <div id="LoginPage">
+        <div><input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" /></div>
+        <div style="clear:both;"><input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" /></div>
         <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
     </div>
         </div>
