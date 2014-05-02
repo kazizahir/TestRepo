@@ -99,8 +99,8 @@
             }
 
             for (var i = 0; i < items.length; i++) {
-                var addUserPopup = '<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '"></div></div></div>';
-                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="item-label">' + items[i].Label + '</div><div class="widget-head">' + addUserPopup + '<div class="widget-content"><ul><li>' + items[i].Description + '</li></ul><div class="user-item-id'+items[i].Id+'"></div></div></li>'));
+                var addUserPopup = '<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '"></div></div>';
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="widget-head">' + addUserPopup + '</div><div class="item-label">' + items[i].Label + '</div><div style="clear: both; height: 39px;" class="widget-content1"><div class="user-item-id' + items[i].Id + '"></div></div><div class="item-desc widget-content">' + items[i].Description + '</div></li>'));
             }
 
             var userMenu = $('<div class="user-menu" style=""><ul id="menu"><div class="ui-field-contain"><fieldset data-role="controlgroup"></fieldset></div></ul></div>');
@@ -191,7 +191,7 @@
         }
 
         function addPhoto(itemId, userName, phone) {
-            $('.user-item-id' + itemId).append('<div class="' + userName + '"><a href="tel:' + phone + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></a></div>');
+            $('.user-item-id' + itemId).append('<div class="' + userName + ' user-image-container"><a href="tel:' + phone + '"><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></a></div>');
         }
 
         function removePhoto(itemId, userName) {

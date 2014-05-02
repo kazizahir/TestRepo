@@ -194,16 +194,27 @@ div.ui-input-text {
 
 div.item-label {
    padding-left: 5px; 
-   padding-top: 5px;
-   font-size: 14px;
+   padding-top: 0px;
+   padding-bottom: 2px;
+   font-size: 13px;
+   font-weight: bold;
 }
 
-div.widget-content ul li {
+div.widget-content {
+    border-radius: 3px;
+}
+
+div.widget-content {
     font-size: 12px;
 }
 
 #columns .widget .widget-head {
     height: 25px!important;
+    padding-top: 5px;
+}
+
+div.user-image-container {
+    float:right;
 }
 
 div.column-container {
@@ -226,7 +237,13 @@ div#columns {
 }
 
 img.user-image {
-    margin: 3px!important;
+    margin: 2px!important;
+    border-radius: 3px;
+}
+
+.item-desc {
+    clear: both;
+    padding: 10px 3px 10px 3px!important;
 }
 
 ::-webkit-scrollbar {
