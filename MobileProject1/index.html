@@ -51,6 +51,7 @@
     <div style="height: 55px; " >
         <button id="AddColumn" style="float:right;">+</button>
         <input type="text" id="columnName" style="float:right;"/>
+        <button class="expand-collapse-all" style="margin-right: 10px; background: url('styles/images/down.png') no-repeat; background-color: white; width: 22px; height: 22px; float: right;" status="collapsed" onclick="expandOrCollapseAll();"></button>
     </div>
 
     <div id="columns"></div>
@@ -355,6 +356,19 @@
         function moveCard(itemId, cardId) {
             updateItem(itemId, cardId);
             renderBoard();
+        }
+
+        function expandOrCollapseAll() {
+            if ($('.expand-collapse-all').attr('status') == 'collapse') {
+                $('.item-desc').hide();
+                $('.expand-collapse-all').attr('status', 'expand');
+                $('.expand-collapse-all').css('background', "url('styles/images/down.png') no-repeat").css('background-color', 'white');
+            }
+            else {
+                $('.item-desc').show();
+                $('.expand-collapse-all').attr('status', 'collapse');
+                $('.expand-collapse-all').css('background', "url('styles/images/up.png') no-repeat").css('background-color', 'white');
+            }
         }
     </script>
 
