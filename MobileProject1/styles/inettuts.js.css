@@ -36,7 +36,7 @@
 .widget-head a.collapse  {
     float: left;
     display: inline;
-    background: url(images/up.png) no-repeat;
+    background: url(images/down.png) no-repeat;
     width: 14px;
     height: 14px;
     text-indent: -9999em;

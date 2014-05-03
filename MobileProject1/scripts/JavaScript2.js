@@ -48,8 +48,9 @@
                 $ = this.jQuery,
                 settings = this.settings;
 
-            $(settings.widgetSelector, $(settings.columns)).each(function () {
+            $(settings.widgetSelector, $(settings.columns)).each(function (i) {
                 var thisWidgetSettings = iNettuts.getWidgetSettings(this.id);
+
                 if (thisWidgetSettings.removable) {
                     $('<a href="#" class="remove">CLOSE</a>').mousedown(function (e) {
                         e.stopPropagation();
@@ -93,10 +94,10 @@
                         return false;
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
-                        .append('<ul><li class="item"><input class="item-label-edit" value="' + $('.item-label', this).text() + '"/></li>')
-                        .append('<li class="item"><input class="item-desc-edit" value="' + $('.widget-content ul li', this).text() + '"></li>')
+                        .append('<ul><li class="item"><input class="item-label-edit" placeholder="Edit Label" value="' + $('.item-label', this).text() + '"/></li>')
+                        .append('<li class="item"><input class="item-desc-edit" placeholder="Edit Description" value="' + $('.widget-content ul li', this).text() + '"></li>')
                         .append((function () {
-                            var colorList = '<li class="item"><label>Color:</label><ul class="colors">';
+                            var colorList = '<li class="item"><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {
                                 colorList += '<li class="' + this + '"/>';
                             });
@@ -107,17 +108,29 @@
                 }
 
                 if (thisWidgetSettings.collapsible) {
+                    var userListAsLI = '<fieldset data-role="controlgroup">';
+                    $.each(users, function (j, user) {
+                        userListAsLI += '<label class="user-checkbox-label"><span><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[j].Name + '\')" name="' + users[j].Name + '" value="' + users[j].Id + '"><img width="30" height="30" border="1" src="pictures/' + users[j].Name + '.jpg"/><div>' + users[j].Name + '</div></span></label>';
+                    });
+                    userListAsLI += '</fieldset>';
+
+                    $('<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">ADD USER</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '">'+userListAsLI+'</div></div>').mousedown(function (e) {
+                        e.stopPropagation();
+                    }).prependTo($(settings.handleSelector, this));
+
+
+
                     $('<a href="#" class="collapse">COLLAPSE</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
-                        $(this).css({ background: 'url(styles/images/down.png) no-repeat' })
-                            .parents(settings.widgetSelector)
-                                .find(settings.contentSelector).hide();
-                        return false;
-                    }, function () {
                         $(this).css({ background: 'url(styles/images/up.png) no-repeat' })
                             .parents(settings.widgetSelector)
                                 .find(settings.contentSelector).show();
+                        return false;
+                    },function () {
+                        $(this).css({ background: 'url(styles/images/down.png) no-repeat' })
+                            .parents(settings.widgetSelector)
+                                .find(settings.contentSelector).hide();
                         return false;
                     }).prependTo($(settings.handleSelector, this));
                 }

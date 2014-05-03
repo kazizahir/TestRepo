@@ -194,16 +194,29 @@ div.ui-input-text {
 
 div.item-label {
    padding-left: 5px; 
-   padding-top: 5px;
-   font-size: 14px;
+   padding-top: 0px;
+   padding-bottom: 2px;
+   font-size: 13px;
+   font-weight: bold;
 }
 
-div.widget-content ul li {
+div.widget-content {
+    border-radius: 3px;
     font-size: 12px;
+    display: none;
 }
 
 #columns .widget .widget-head {
     height: 25px!important;
+    padding-top: 5px;
+}
+
+div.user-image-container {
+    float: right;
+}
+
+ul.colors {
+    padding-left: 50px!important;
 }
 
 div.column-container {
@@ -226,7 +239,49 @@ div#columns {
 }
 
 img.user-image {
-    margin: 3px!important;
+    margin: 2px!important;
+    border-radius: 3px;
+}
+
+img.call-image {
+    padding-top: 2px;
+}
+
+.item-desc {
+    clear: both;
+    padding: 10px 3px 10px 3px!important;
+}
+
+.users-div fieldset.ui-controlgroup {
+    margin: 0px!important;
+}
+
+.users-div img {
+    border-radius: 3px;
+    margin: 3px 0 3px 0;
+}
+
+.user-checkbox-label input[type=checkbox], img {
+    float:left;
+}
+
+.user-checkbox-label div {
+    float:left; 
+    padding: 10px 5px 0px 5px;
+    font-size: 13px;
+}
+
+#popupMove a {
+    padding: 5px;
+}
+
+.edit-box li.item {
+    padding: 0px 0px 0px 13px!important;
+    width: 90%!important;
+}
+
+.ui-input-text {
+    margin: .2em 0!important;
 }
 
 ::-webkit-scrollbar {
