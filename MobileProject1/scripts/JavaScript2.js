@@ -33,6 +33,7 @@
 
         init: function () {
             this.attachStylesheet('styles/inettuts.js.css');
+            this.attachStylesheet('styles/jquery.mobile-1.4.2.css');
             this.addWidgetControls();
             this.makeSortable();
         },
@@ -71,18 +72,29 @@
                     }).appendTo($(settings.handleSelector, this));
                 }
 
+                if (thisWidgetSettings.movable) {
+                    //var categories = '<ul data-role="listview" data-inset="true" style="min-width:210px;">';
+                    //$.each(data, function (i, category) {
+                    //    categories += '<li><a href="#" data-rel="back" onclick="moveCard(\'' + items[i].Id + '\', \'' + category.Id + '\');">' + category.Label + '</a></li>';
+                    //});
+                    //categories += '</ul>';
+
+
+                    //$('<a href="#popupMove" data-rel="popup" data-transition="pop" class="move">MOVE</a><div data-role="popup" data-theme="b" id="popupMove">' + categories + '</div>').mousedown(function (e) {
+                    $('<a href="#popupCategory" data-rel="popup" data-transition="pop" class="move">MOVE</a>').mousedown(function (e) {
+                        e.stopPropagation();
+
+                        var itemId = $(this).parents('li.widget').attr('itemid');
+                        var categoryPopupContent = $('<ul data-role="listview" data-inset="true" style="min-width:210px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"></ul>');
+                        $.each(data, function (i, category) {
+                            categoryPopupContent.append('<li><a href="#" data-rel="back" onclick="moveCard(\'' + itemId + '\', \'' + category.Id + '\');" class="ui-btn ui-btn-icon-right ui-icon-carat-r">' + category.Label + '</a></li>');
+                        });
+                        $('#popupCategory .content').empty().append(categoryPopupContent);
+
+                    }).appendTo($(settings.handleSelector, this));
+                }
 
                 if (thisWidgetSettings.editable) {
-                    var categories = '<ul data-role="listview" data-inset="true" style="min-width:210px;">';
-                    $.each(data, function (i, category) {
-                        categories += '<li><a href="#" data-rel="back" onclick="moveCard(\'' + category.Id + '\');">' + category.Label + '</a></li>';
-                    });
-                    categories += '</ul>';
-                    $('<a href="#popupMove" onclick="setItemIdToGlobal($(this).parents(\'li.widget\').attr(\'itemid\'));" data-rel="popup" data-transition="pop" class="move">MOVE</a><div data-role="popup" data-theme="b" id="popupMove">' + categories + '</div>').mousedown(function (e) {
-                        e.stopPropagation();
-                    }).appendTo($(settings.handleSelector, this));
-                    
-
                     $('<a href="#" class="edit">EDIT</a>').mousedown(function (e) {
                         e.stopPropagation();
                     }).toggle(function () {
@@ -98,7 +110,7 @@
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
                         .append('<ul><li class="item"><input class="item-label-edit" placeholder="Edit Label" value="' + $('.item-label', this).text() + '"/></li>')
-                        .append('<li class="item"><input class="item-desc-edit" placeholder="Edit Description" value="' + $('.widget-content ul li', this).text() + '"></li>')
+                        .append('<li class="item"><textarea class="item-desc-edit" placeholder="Edit Description">' + $('.widget-content', this).text() + '</textarea></li>')
                         .append((function () {
                             var colorList = '<li class="item"><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {
@@ -111,14 +123,31 @@
                 }
 
                 if (thisWidgetSettings.collapsible) {
-                    var userListAsLI = '<fieldset data-role="controlgroup">';
-                    $.each(users, function (j, user) {
-                        userListAsLI += '<label class="user-checkbox-label"><span><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[j].Name + '\')" name="' + users[j].Name + '" value="' + users[j].Id + '"><img width="30" height="30" border="1" src="pictures/' + users[j].Name + '.jpg"/><div>' + users[j].Name + '</div></span></label>';
-                    });
-                    userListAsLI += '</fieldset>';
-
-                    $('<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">ADD USER</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '">'+userListAsLI+'</div></div>').mousedown(function (e) {
+                    $('<a href="#popupUser" class="add-user" data-rel="popup" data-transition="pop">ADD USER</a>').mousedown(function (e) {
                         e.stopPropagation();
+                        
+                        var userPopupContent = $('<div class="users-div" itemId="' + $(this).parents('li.widget').attr('itemid') + '"></div>');
+                        var fieldset = $('<fieldset data-role="controlgroup"></fieldset>').appendTo(userPopupContent);
+                        $.each(users, function (j, user) {
+                            fieldset.append('<label style="margin-top: 0px; margin-bottom: 0px;" onclick="selectOrUnselectUser(this, \'' + users[j].Name + '\');" userId="' + users[j].Id + '" class="user-checkbox-label ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off ui-first-child"><span><img width="30" height="30" class="user-image" border="1" src="pictures/' + users[j].Name + '.jpg"/><div>' + users[j].Name + '</div></span></label><input type="checkbox" style="display: none;" name="' + users[j].Name + '" value="' + users[j].Id + '">');
+                        });
+                        $('#popupUser .content').empty().append(userPopupContent);
+
+                        $.each(selectedUsers, function (i, aUser) {
+                            if ($('.users-div').attr('itemid') == aUser.itemId) {
+                                $('.user-checkbox-label[userId=' + aUser.userId + ']').removeClass('ui-checkbox-off').addClass('ui-checkbox-on');
+                            }
+                        });
+
+                        $(fieldset).find('.user-checkbox-label').click(function () {
+                            if ($(this).hasClass('ui-checkbox-on')) {
+                                $(this).removeClass('ui-checkbox-on').addClass('ui-checkbox-off');
+                            }
+                            else {
+                                $(this).removeClass('ui-checkbox-off').addClass('ui-checkbox-on');
+                            }
+                        });
+
                     }).prependTo($(settings.handleSelector, this));
 
 
@@ -143,7 +172,7 @@
                 $(this).parents('li.widget').find('.edit-box').each(function () {
                     if ($(this).css('display') == 'none') {
                         updateItemLabel($(this).parents('li.widget').attr('itemid'), $(this).find('input.item-label-edit').val());
-                        updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).parents('li.widget').find('input.item-desc-edit').val());
+                        updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).parents('li.widget').find('.item-desc-edit').val());
                     }
                 });
             });
@@ -154,10 +183,10 @@
                 $('input.item-label-edit', this).keyup(function () {
                     $(this).parents(settings.widgetSelector).find('.item-label').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
-                $('input.item-desc-edit', this).keyup(function () {
+                $('.item-desc-edit', this).keyup(function () {
                     updateItemDesc($(this).parents('li.widget').attr('itemid'), $(this).val());
 
-                    $(this).parents(settings.widgetSelector).find('.widget-content ul li').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
+                    $(this).parents(settings.widgetSelector).find('.widget-content').text($(this).val().length > 20 ? $(this).val().substr(0, 20) + '...' : $(this).val());
                 });
                 $('ul.colors li', this).click(function () {
 

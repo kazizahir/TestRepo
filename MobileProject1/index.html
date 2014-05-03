@@ -26,6 +26,7 @@
 <body>
 
     <div>
+
     <div id="LoginPage">
         <div><input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" /></div>
         <div style="clear:both;"><input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" /></div>
@@ -34,10 +35,23 @@
         </div>
     
     <div id="main"  style="display:none">
+
+      <div id="popupUser" data-role="popup" data-theme="b">
+        <div data-role="content" class="content">
+
+        </div>
+      </div>
+
+      <div id="popupCategory" data-role="popup" data-theme="b">
+        <div data-role="content" class="content">
+
+        </div>
+      </div>
  
     <div style="height: 55px; " >
         <button id="AddColumn" style="float:right;">+</button>
         <input type="text" id="columnName" style="float:right;"/>
+        <button class="expand-collapse-all" style="margin-right: 10px; background: url('styles/images/down.png') no-repeat; background-color: white; width: 22px; height: 22px; float: right;" status="collapsed" onclick="expandOrCollapseAll();"></button>
     </div>
 
     <div id="columns"></div>
@@ -47,7 +61,7 @@
     <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
     
     
-    <script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>
+    <!--<script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>-->
 
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
@@ -59,18 +73,18 @@
         var forDelete;
         var myBoard = { Id: 1 };
 
-        var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
+        //var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
 
         
-            socket.on(myBoard.Id.toString(), function (d) {
-                renderBoard();
-            });
+        //    socket.on(myBoard.Id.toString(), function (d) {
+        //        renderBoard();
+        //    });
         
 
         function _Broadcast(boardId) {
-                setTimeout(function () {
-                    socket.emit('boardUpdated', { Channel: boardId.toString() });
-                }, 100);
+        //        setTimeout(function () {
+        //            socket.emit('boardUpdated', { Channel: boardId.toString() });
+        //        }, 100);
         };
         
         var board = new BoardRepo(_Broadcast);
@@ -118,7 +132,7 @@
                     
                     //_Broadcast('1', 'ItemUpdated', items[i]);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
-                    socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
+                    //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
                     board.PostItem(items[i]);
                     return;
                 }
@@ -141,7 +155,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Color = color;
-                    alert(items[i].Color);
+                    //alert(items[i].Color);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //alert(items[i]);
                     board.PostItem(items[i]);
@@ -155,6 +169,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Description = desc;
+                    board.PostItem(items[i]);
                     return;
                 }
             }
@@ -179,19 +194,12 @@
 
             $('#columns').empty();
             for (var i = 0; i < data.length; i++) {
-                $('#columns').append($('<div id="column-container" class="column-container"><ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;height:26px;"><h3 style="padding: 8px;">' + data[i].Label + '<button class="btn-add" style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul></div>'));
+                $('#columns').append($('<div id="column-container" class="column-container"><ul class="column" id="' + data[i].Id + '"><li style="font-weight:bold;color:white;height:26px;"><h3 style="padding: 8px;">' + data[i].Label + '<button onclick="addItemButtonClicked(this);" class="btn-add ui-btn ui-shadow ui-corner-all" style="float:right;" catId="' + data[i].Id + '">+</button></h3></li></ul></div>'));
             }
 
             for (var i = 0; i < items.length; i++) {
-                var addUserPopup = ''; //'<a href="#popupBasic' + items[i].Id + '" class="add-user" data-rel="popup" data-transition="pop">Add User</a><div id="popupBasic' + items[i].Id + '" data-theme="b" data-role="popup"><div class="users-div" itemId="' + items[i].Id + '"></div></div>';
-                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="widget-head">' + addUserPopup + '</div><div class="item-label">' + items[i].Label + '</div><div style="clear: both; height: 39px;" class="user-photo-container"><div class="user-item-id' + items[i].Id + '"></div></div><div class="item-desc widget-content">' + items[i].Description + '</div></li>'));
+                $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="widget-head"></div><div class="item-label">' + items[i].Label + '</div><div style="clear: both; height: 39px;" class="user-photo-container"><div class="user-item-id' + items[i].Id + '"></div></div><div class="item-desc widget-content">' + items[i].Description + '</div></li>'));
             }
-
-            //var userMenu = $('<div class="user-menu" style=""><ul id="menu"><div class="ui-field-contain"><fieldset data-role="controlgroup"></fieldset></div></ul></div>');
-            //for (var i = 0; i < users.length; i++) {
-            //    userMenu.find('#menu fieldset').append('<label><span><input type="checkbox" onclick="selectOrUnselectUser(this, \'' + users[i].Name + '\')" name="' + users[i].Name + '" value="' + users[i].Id + '"><img width="30" height="30" border="1" src="pictures/' + users[i].Name + '.jpg"/>' + users[i].Name + '</span></label>');
-            //}
-            //$('.users-div').append(userMenu);
 
 
             iNettuts.init();
@@ -200,7 +208,6 @@
 
             renderUsers();
             initTouch();
-
         }
 
         function renderUsers() {
@@ -210,12 +217,6 @@
 			            if (user.Id == userId) {
 			                addPhoto(item.Id, user.Name, user.Phone);
 			                selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
-			                
-			                $.each($('.users-div'), function (i, div) {
-			                    if ($(div).attr('itemid') == item.Id) {
-			                        $(div).find('input[type="checkbox"][value=' + userId + ']').attr('checked', 'true');
-			                    }
-			                });
 			            }
 			        });					
 				});
@@ -223,7 +224,7 @@
         }
 
         function selectOrUnselectUser(ctl, user) {
-        	var userId = $(ctl).val();
+            var userId = $(ctl).attr('userId');
             var parent = $(ctl);
             while (true) {
                 parent = $(parent).parent();
@@ -241,12 +242,10 @@
                 }
             });
 
-            if ($(ctl).is(':checked')) {
+            if ($(ctl).hasClass('ui-checkbox-off')) {
                 selectedUsers.push({ itemId: itemId, userId: userId, userName: user });
 
                 addPhoto(itemId, user, userPhone);
-
-                //alert($('.user-item-id' + itemId).html());
             }
             else {
                 var index = -1;
@@ -269,12 +268,8 @@
                     usersIds.push(user.userId);
                 }
             });
-            //alert(JSON.stringify(items));
-            //alert(JSON.stringify(usersIds));
-            //updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
-            updateItemUsers($(parent).attr('itemid'), usersIds);
 
-            //alert(JSON.stringify(selectedUsers));
+            updateItemUsers($(parent).attr('itemid'), usersIds);
         }
 
         function addPhoto(itemId, userName, phone) {
@@ -337,23 +332,24 @@
             }
         }
         
-        //$(document).ready(function () {
+
+
         renderBoard();
 
-        $('h3 button[catId]').each(function () {
-            $(this).click(function () {
-                //repository.CreateItem();
-                var colId = $(this).attr('catId');                    
-                var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
-                //items.push({ Id: itemId, Label: '', Description: 'Test Description', CategoryId: colId, Color: 'color-green' });
+        var gId = 8;
+        //$('h3 button[catId]').click(function () {
+        function addItemButtonClicked(ctl) {
+            //repository.CreateItem();
+            var colId = $(ctl).attr('catId');
 
-                renderBoard();
-                $('li#' + (itemId)).find('.edit').click();
+            var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
+            //items.push({ Id: gId++, Label: '', Description: '', CategoryId: colId, Color: 'color-green', Users: [] });
 
-            });
-        });
- 
-        //});
+            renderBoard();
+
+            $('li#' + (gId)).find('.edit').click();
+        }
+
 
         $('.user-image, .call-image').hover(function () {
             $(this).parent().find('.call-image').show();
@@ -361,15 +357,22 @@
             $(this).parent().find('.call-image').hide();
         });
 
-        var globalItemId = undefined;
-        function setItemIdToGlobal(id) {
-            globalItemId = id;
+        function moveCard(itemId, cardId) {
+            updateItem(itemId, cardId);
+            renderBoard();
         }
 
-        function moveCard(cardId) {
-            if (globalItemId == undefined) return;
-            updateItem(globalItemId, cardId);
-            renderBoard();
+        function expandOrCollapseAll() {
+            if ($('.expand-collapse-all').attr('status') == 'collapse') {
+                $('.item-desc').hide();
+                $('.expand-collapse-all').attr('status', 'expand');
+                $('.expand-collapse-all').css('background', "url('styles/images/down.png') no-repeat").css('background-color', 'white');
+            }
+            else {
+                $('.item-desc').show();
+                $('.expand-collapse-all').attr('status', 'collapse');
+                $('.expand-collapse-all').css('background', "url('styles/images/up.png') no-repeat").css('background-color', 'white');
+            }
         }
     </script>
 
@@ -380,7 +383,7 @@
                 return;
 
             var catId = board.AddCategory(myBoard.Id, categoryName);
-            //data.push({ Id: catId, Label: categoryName });
+            //data.push({ Id: gId++, Label: categoryName });
             
             renderBoard();       
         });
