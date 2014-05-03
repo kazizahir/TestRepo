@@ -86,7 +86,7 @@ function BoardRepo(updateDoneCallback) {
         var ret;
 
         $.ajax({
-            async: false,
+            async: true,
             type: 'GET',
             url: basePath + '/api/values/?boardId=' + boardId + '&&CategoryId=' + CategoryId + '&&ItemName=' + ItemName + '&&color=' + color + '&&Description=' + Description + '&&ItemId=' + ItemId,
 
@@ -98,8 +98,19 @@ function BoardRepo(updateDoneCallback) {
         return ret;
     }
 
+    this.DeleteItem = function(itemId){
+        $.ajax({
+            async: true,
+            type: 'GET',
+            url: basePath + '/api/values/?itemIdForDelete=' + itemId,
+
+            success: function (data) {                
+            }
+        });
+    }
+
     this.PostItem = function (Item) {
-        var ret;
+        //var ret;
 
         $.ajax({
             type: "POST",
@@ -108,16 +119,14 @@ function BoardRepo(updateDoneCallback) {
             contentType: "application/json",
             success: function (data) {
 
-                if (data > 0)
-                {
-                    ret = data;
-                }
+                //if (data > 0)
+                //{
+                //    ret = data;
+                //}
 
             }
         });
 
-
-        return ret;
     }
 
 }

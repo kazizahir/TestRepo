@@ -52,14 +52,17 @@
                 var thisWidgetSettings = iNettuts.getWidgetSettings(this.id);
 
                 if (thisWidgetSettings.removable) {
-                    $('<a href="#" class="remove">CLOSE</a>').mousedown(function (e) {
+                    var id = $(this).parents('li.widget').attr('itemid');                    
+                    var sttt = '<a href="#" class="remove" onclick="forDelete = $(this).parents(\'li.widget\').attr(\'itemid\');">CLOSE</a>';
+                    $(sttt).mousedown(function (e) {
                         e.stopPropagation();
                     }).click(function () {
-                        if (confirm('This widget will be removed, ok?')) {
+                        if (confirm('This item will be removed, ok?')) {
                             $(this).parents(settings.widgetSelector).animate({
                                 opacity: 0
                             }, function () {
-                                $(this).wrap('<div/>').parent().slideUp(function () {
+                                $(this).wrap('<div/>').parent().slideUp(function () {                                    
+                                    DeleteItem(forDelete);                                    
                                     $(this).remove();
                                 });
                             });
