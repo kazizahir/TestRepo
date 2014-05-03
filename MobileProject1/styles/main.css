@@ -291,6 +291,18 @@ img.call-image {
     padding-bottom: 0!important;
 }
 
+div.content {
+    padding: 0px;
+}
+
+div.content ul {
+    margin: 2px 0!important;
+}
+
+div.content ul li a {
+    padding: 5px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
