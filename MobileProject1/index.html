@@ -65,7 +65,7 @@
 
     <script type="text/javascript" src="scripts/JavaScript1.js"></script>
     <script type="text/javascript" src="scripts/JavaScript2.js"></script>
-    <!--<script type="text/javascript" src="scripts/BoardRepo.js"></script>-->
+    <script type="text/javascript" src="scripts/BoardRepo.js"></script>
 
     <script type="text/javascript">
 
@@ -79,26 +79,26 @@
         //    });
         
 
-        //function _Broadcast(boardId) {
+        function _Broadcast(boardId) {
         //        setTimeout(function () {
         //            socket.emit('boardUpdated', { Channel: boardId.toString() });
         //        }, 100);
-        //};
+        };
         
-        //var board = new BoardRepo(_Broadcast);
+        var board = new BoardRepo(_Broadcast);
 
         //board.AddCategory(1, 'Test Category');
-        var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
-        var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red', Users: ['1', '2'] },
-            { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green', Users: ['2'] },
-            { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow', Users: ['2'] },
-            { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange', Users: ['1'] },
-            { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white', Users: ['1', '2'] },
-            { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue', Users: ['1'] }];
+        //var data = [{ Id: 1, Label: 'Red' }, { Id: 2, Label: 'Green' }, { Id: 3, Label: 'Blue' }];
+        //var items = [{ Id: 1, Label: 'Test1', Description: 'Desc - 1', CategoryId: 2, Color: 'color-red', Users: ['1', '2'] },
+        //    { Id: 2, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-green', Users: ['2'] },
+        //    { Id: 3, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-yellow', Users: ['2'] },
+        //    { Id: 4, Label: 'Test1', Description: 'Description of Test1', CategoryId: 3, Color: 'color-orange', Users: ['1'] },
+        //    { Id: 5, Label: 'Test2', Description: 'Description of Test2', CategoryId: 3, Color: 'color-white', Users: ['1', '2'] },
+        //    { Id: 6, Label: 'Test3', Description: 'Description of Test3', CategoryId: 2, Color: 'color-blue', Users: ['1'] }];
 
 
-        //var data = board.GetCategories(myBoard.Id);
-        //var items = board.GetBoardItems(myBoard.Id);
+        var data = board.GetCategories(myBoard.Id);
+        var items = board.GetBoardItems(myBoard.Id);
 
         //board.PostItem(items[1]);
 
@@ -128,7 +128,7 @@
                     //_Broadcast('1', 'ItemUpdated', items[i]);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
-                    //board.PostItem(items[i]);
+                    board.PostItem(items[i]);
                     return;
                 }
             }
@@ -140,7 +140,7 @@
                     items[i].Label = label;
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //alert(JSON.stringify(items[i]));
-                    //board.PostItem(items[i]);
+                    board.PostItem(items[i]);
                     return;
                 }
             }
@@ -153,7 +153,7 @@
                     //alert(items[i].Color);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //alert(items[i]);
-                    //board.PostItem(items[i]);
+                    board.PostItem(items[i]);
                     
                     return;
                 }
@@ -164,6 +164,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Description = desc;
+                    board.PostItem(items[i]);
                     return;
                 }
             }
@@ -182,8 +183,8 @@
         }
 
         function renderBoard() {
-            //data = board.GetCategories(myBoard.Id);
-            //items = board.GetBoardItems(myBoard.Id);
+            data = board.GetCategories(myBoard.Id);
+            items = board.GetBoardItems(myBoard.Id);
 
 
             $('#columns').empty();
@@ -196,29 +197,12 @@
             }
 
 
-            //var userPopupContent = $('<fieldset data-role="controlgroup"></fieldset>');
-            //$.each(users, function (j, user) {
-            //    userPopupContent.append('<label class="user-checkbox-label ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off ui-first-child"><span><input type="checkbox" style="display: none;" onclick="selectOrUnselectUser(this, \'' + users[j].Name + '\')" name="' + users[j].Name + '" value="' + users[j].Id + '"><img width="30" height="30" class="user-image" border="1" src="pictures/' + users[j].Name + '.jpg"/><div>' + users[j].Name + '</div></span></label>');
-            //});
-            //$('#popupUser .content').empty().append(userPopupContent);
-
-            //var categoryPopupContent = $('<ul data-role="listview" data-inset="true" style="min-width:210px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"></ul>');
-            //$.each(data, function (i, category) {
-            //    categoryPopupContent.append('<li><a href="#" data-rel="back" onclick="moveCard(\'' + items[i].Id + '\', \'' + category.Id + '\');" class="ui-btn ui-btn-icon-right ui-icon-carat-r">' + category.Label + '</a></li>');
-            //});
-            //$('#popupCategory .content').empty().append(categoryPopupContent);
-
-            //<div data-role="popup" data-theme="b" id="popupMove">' + categories + '</div>
-
-
             iNettuts.init();
             
             selectedUsers = new Array();
 
             renderUsers();
             initTouch();
-
-            //$('div[data-role="popup"]').hide();
         }
 
         function renderUsers() {
@@ -228,12 +212,6 @@
 			            if (user.Id == userId) {
 			                addPhoto(item.Id, user.Name, user.Phone);
 			                selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
-			                
-			                $.each($('.users-div'), function (i, div) {
-			                    if ($(div).attr('itemid') == item.Id) {
-			                        $(div).find('input[type="checkbox"][value=' + userId + ']').attr('checked', 'true');
-			                    }
-			                });
 			            }
 			        });					
 				});
@@ -285,12 +263,8 @@
                     usersIds.push(user.userId);
                 }
             });
-            //alert(JSON.stringify(items));
-            //alert(JSON.stringify(usersIds));
-            //updateItemUsers($(parent).attr('itemid'), JSON.stringify(usersIds));
-            updateItemUsers($(parent).attr('itemid'), usersIds);
 
-            //alert(JSON.stringify(selectedUsers));
+            updateItemUsers($(parent).attr('itemid'), usersIds);
         }
 
         function addPhoto(itemId, userName, phone) {
@@ -363,16 +337,11 @@
             //repository.CreateItem();
             var colId = $(ctl).attr('catId');
 
-            //var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
-            items.push({ Id: gId++, Label: '', Description: '', CategoryId: colId, Color: 'color-green', Users: [] });
-
-            //for (var i = 0; i < items.length; i++) {
-            //    $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="widget-head"></div><div class="item-label">' + items[i].Label + '</div><div style="clear: both; height: 39px;" class="user-photo-container"><div class="user-item-id' + items[i].Id + '"></div></div><div class="item-desc widget-content">' + items[i].Description + '</div></li>'));
-            //}
-            //iNettuts.addWidgetControls();
+            var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
+            //items.push({ Id: gId++, Label: '', Description: '', CategoryId: colId, Color: 'color-green', Users: [] });
 
             renderBoard();
-            //location.reload();
+
             $('li#' + (gId)).find('.edit').click();
         }
 
@@ -395,8 +364,8 @@
             if (categoryName == '')
                 return;
 
-            //var catId = board.AddCategory(myBoard.Id, categoryName);
-            data.push({ Id: gId++, Label: categoryName });
+            var catId = board.AddCategory(myBoard.Id, categoryName);
+            //data.push({ Id: gId++, Label: categoryName });
             
             renderBoard();       
         });
