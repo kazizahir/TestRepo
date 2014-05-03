@@ -284,6 +284,13 @@ img.call-image {
     margin: .2em 0!important;
 }
 
+.item-label-edit {
+    font-size: 14px;
+    min-height: 1.5em!important;
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
