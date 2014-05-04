@@ -10,8 +10,6 @@ function BoardRepo(updateDoneCallback) {
             url: basePath + '/api/values/?boardIdforItems='+boardId,
             
             success: function (data) {
-                //var dataItem = JSON.parse(data);
-                //alert(dataItem[0].Color);
                 ret = data;
             }
         });
@@ -26,8 +24,6 @@ function BoardRepo(updateDoneCallback) {
             url: basePath + '/api/values/?boardIdforCategory=' + boardId,
 
             success: function (data) {
-                //var dataItem = JSON.parse(data);
-                //alert(dataItem[0].Color);
                 ret = data;
             }
         });
@@ -42,9 +38,7 @@ function BoardRepo(updateDoneCallback) {
             url: basePath + '/api/values/?boardIdForUser=' + boardId,
 
             success: function (data) {
-                var dataItem = JSON.parse(data);
-                //alert(dataItem[0].Color);
-                ret = dataItem;
+                ret = data;
             }
         });
         return ret;
@@ -109,19 +103,14 @@ function BoardRepo(updateDoneCallback) {
         });
     }
 
-    this.PostItem = function (Item) {
+    this.PostItem = function (Item, boardId) {
         $.ajax({
             type: "POST",
             data: JSON.stringify(Item),
             url: basePath + '/api/values',
             contentType: "application/json",
             success: function (data) {
-                updateDoneCallback(1);
-                //if (data > 0)
-                //{
-                //    ret = data;
-                //}
-
+                updateDoneCallback(boardId);
             }
         });
 

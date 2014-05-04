@@ -120,7 +120,7 @@
                     //_Broadcast('1', 'ItemUpdated', items[i]);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
-                    board.PostItem(items[i]);
+                    board.PostItem(items[i], myBoard.Id);
                     return;
                 }
             }
@@ -130,9 +130,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Label = label;
-                    //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
-                    //alert(JSON.stringify(items[i]));
-                    board.PostItem(items[i]);
+                    board.PostItem(items[i], myBoard.Id);
                     return;
                 }
             }
@@ -142,11 +140,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Color = color;
-                    //alert(items[i].Color);
-                    //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
-                    //alert(items[i]);
-                    board.PostItem(items[i]);
-
+                    board.PostItem(items[i], myBoard.Id);
                     return;
                 }
             }
@@ -190,9 +184,7 @@
             selectedUsers = new Array();
 
             renderUsers();
-            //initTouch();
-
-
+            
             initCallIcon();
         }
 
@@ -274,60 +266,7 @@
             $('.user-item-id' + itemId).find('div.' + userName).remove();
         }
 
-        function initTouch() {
-            var totalWidth = (data.length + 1) * 306;
-            $('div#columns').css('width', totalWidth + 'px');
-            touchScrollX("columns");
-
-            $('div.column-container').css('height', $(window).height() - 75 + 'px');
-            touchScrollY("column-container");
-        }
-
-        function isTouchDevice() {
-            try {
-                document.createEvent("TouchEvent");
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function touchScrollY(id) {
-            if (isTouchDevice()) { //if touch events exist...
-                var el = document.getElementById(id);
-                var scrollStartPos = 0;
-
-                document.getElementById(id).addEventListener("touchstart", function (event) {
-                    scrollStartPos = this.scrollTop + event.touches[0].pageY;
-                    event.preventDefault();
-                }, false);
-
-                document.getElementById(id).addEventListener("touchmove", function (event) {
-                    this.scrollTop = scrollStartPos - event.touches[0].pageY;
-                    event.preventDefault();
-                }, false);
-            }
-        }
-
-        function touchScrollX(id) {
-            if (isTouchDevice()) { //if touch events exist...
-                var el = document.getElementById(id);
-                var scrollStartPos = 0;
-
-                document.getElementById(id).addEventListener("touchstart", function (event) {
-                    scrollStartPos = this.scrollLeft + event.touches[0].pageX;
-                    event.preventDefault();
-                }, false);
-
-                document.getElementById(id).addEventListener("touchmove", function (event) {
-                    this.scrollLeft = scrollStartPos - event.touches[0].pageX;
-                    event.preventDefault();
-                }, false);
-            }
-        }
-
-
-
+        
         renderBoard();
 
         //var gId = 8;
