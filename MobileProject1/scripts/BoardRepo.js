@@ -1,6 +1,7 @@
 function BoardRepo(updateDoneCallback) {
     //var basePath = 'http://carddemo.mob.bd';
     var basePath = 'http://localhost:61346';
+    
 
     this.GetBoardItems = function (boardId) {
         var ret;
@@ -104,15 +105,20 @@ function BoardRepo(updateDoneCallback) {
     }
 
     this.PostItem = function (Item, boardId) {
+        var ret;
         $.ajax({
+            async: false,
             type: "POST",
             data: JSON.stringify(Item),
             url: basePath + '/api/values',
             contentType: "application/json",
             success: function (data) {
+                ret = data;
                 updateDoneCallback(boardId);
             }
         });
+
+        return ret;
 
     }
 

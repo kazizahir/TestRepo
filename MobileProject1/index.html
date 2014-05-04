@@ -20,7 +20,7 @@
 </head>
 <body>
 
-    <div data-role="page">
+   <!-- <div data-role="page">
         <div id="LoginPage" data-role="content">
             <div>
                 <input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" />
@@ -30,7 +30,7 @@
             </div>
             <div style="clear: both; float: right"><a href="#main">Login</a></div>
         </div>
-    </div>
+    </div>-->
 
     <div id="main" data-role="page">
         <div data-role="content">
@@ -112,6 +112,7 @@
             var newCatId = $(ui.item[0]).parents('ul.column').attr('id');
             var itemId = $(ui.item[0]).attr('itemid');
             updateItem(itemId, newCatId);
+            //alert(itemId);
 
         }
 
@@ -274,21 +275,16 @@
 
         //var gId = 8;
         function addItemButtonClicked(ctl) {
-            //repository.CreateItem();
             var colId = $(ctl).attr('catId');
-
-            var itemId = board.AddItem(myBoard.Id, colId, '', 'color-green', 'Test Description');
-            //items.push({ Id: gId++, Label: '', Description: '', CategoryId: colId, Color: 'color-green', Users: [] });
-
+            var itemId = board.PostItem({Id:0, CategoryId:colId, Label:'', Color:'color-green', Description:'Test Description', User:[1], BoardId:myBoard.Id}, myBoard.Id);
             renderBoard();
-
             $('li#' + (itemId)).find('.edit').click();
         }
 
 
         function moveCard(itemId, cardId) {
             updateItem(itemId, cardId);
-            //renderBoard();
+            renderBoard();
         }
 
         function expandOrCollapseAll() {
