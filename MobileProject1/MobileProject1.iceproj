@@ -69,6 +69,7 @@
     <Content Include="jquery-mobile\js\jquery-1.9.1.min.js" />
     <Content Include="scripts\BoardRepo.js" />
     <Content Include="scripts\JavaScript3.js" />
+    <Content Include="scripts\jquery-migrate-1.2.1.min.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
     <Content Include="jquery-mobile\js\jquery.mobile-1.3.1.min.js" />
     <Content Include="jquery-mobile\styles\jquery.mobile-1.3.1.min.css" />
