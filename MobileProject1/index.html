@@ -20,36 +20,39 @@
 </head>
 <body>
 
-    <div>
-        <div id="LoginPage">
-            <div><input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" /></div>
-            <div style="clear:both;"><input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" /></div>
-            <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
+    <div data-role="page">
+        <div id="LoginPage" data-role="content">
+            <div>
+                <input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" />
+            </div>
+            <div style="clear: both;">
+                <input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" />
+            </div>
+            <div style="clear: both; float: right"><a href="#main">Login</a></div>
         </div>
     </div>
-    
-    <div id="main" style="display:none">
 
-      <div id="popupUser" data-role="popup" data-theme="b">
-        <div data-role="content" class="content">
+    <div id="main" data-role="page">
+        <div data-role="content">
+            <div id="popupUser" data-role="popup" data-theme="b">
+                <div data-role="content" class="content">
+                </div>
+            </div>
 
+            <div id="popupCategory" data-role="popup" data-theme="b">
+                <div data-role="content" class="content">
+                </div>
+            </div>
+
+            <div style="height: 55px;">
+                <button id="AddColumn" style="float: right;">+</button>
+                <input type="text" id="columnName" style="float: right;" />
+                <button class="expand-collapse-all" status="collapsed" onclick="expandOrCollapseAll();"></button>
+            </div>
+
+            <div id="columns"></div>
         </div>
-      </div>
-
-      <div id="popupCategory" data-role="popup" data-theme="b">
-        <div data-role="content" class="content">
-
-        </div>
-      </div>
- 
-    <div style="height: 55px; ">
-        <button id="AddColumn" style="float:right;">+</button>
-        <input type="text" id="columnName" style="float:right;"/>
-        <button class="expand-collapse-all" status="collapsed" onclick="expandOrCollapseAll();"></button>
     </div>
-
-    <div id="columns"></div>
-        </div>
 
     <!--<script type="text/javascript" src="http://192.168.1.116:8085/socket.io/socket.io.js"></script>-->
 
@@ -70,9 +73,9 @@
 
 
         function _Broadcast(boardId) {
-                setTimeout(function () {
-                    //socket.emit('boardUpdated', { Channel: boardId.toString() });
-                }, 10);
+            setTimeout(function () {
+                //socket.emit('boardUpdated', { Channel: boardId.toString() });
+            }, 10);
         };
 
         var board = new BoardRepo(_Broadcast);
@@ -184,7 +187,7 @@
             selectedUsers = new Array();
 
             renderUsers();
-            
+
             initCallIcon();
         }
 
@@ -266,7 +269,7 @@
             $('.user-item-id' + itemId).find('div.' + userName).remove();
         }
 
-        
+
         renderBoard();
 
         //var gId = 8;
@@ -287,7 +290,7 @@
             updateItem(itemId, cardId);
             //renderBoard();
         }
-        
+
         function expandOrCollapseAll() {
             if ($('.expand-collapse-all').attr('status') == 'collapse') {
                 $('.item-desc').hide();
@@ -298,7 +301,7 @@
                 $('.item-desc').show();
                 $('.expand-collapse-all').attr('status', 'collapse');
                 $('.expand-collapse-all').css('background', "url('styles/images/up.png')");
-            }            
+            }
         }
     </script>
 
