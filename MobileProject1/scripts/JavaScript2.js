@@ -82,7 +82,7 @@
                         e.stopPropagation();
 
                         var itemId = $(this).parents('li.widget').attr('itemid');
-                        var categoryPopupContent = $('<ul data-role="listview" data-inset="true" style="min-width:210px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"></ul>');
+                        var categoryPopupContent = $('<ul data-role="listview" data-inset="true" style="min-width:170px;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow"></ul>');
                         $.each(data, function (i, category) {
                             categoryPopupContent.append('<li><a href="#" data-rel="back" onclick="moveCard(\'' + itemId + '\', \'' + category.Id + '\');" class="ui-btn ui-btn-icon-right ui-icon-carat-r">' + category.Label + '</a></li>');
                         });
@@ -106,8 +106,8 @@
                         return false;
                     }).appendTo($(settings.handleSelector, this));
                     $('<div class="edit-box" style="display:none;"/>')
-                        .append('<ul><li class="item"><input class="item-label-edit" placeholder="Edit Label" value="' + $('.item-label', this).text() + '"/></li>')
-                        .append('<li class="item"><textarea class="item-desc-edit" placeholder="Edit Description">' + $('.widget-content', this).text() + '</textarea></li>')
+                        .append('<ul><li class="item"><div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input class="item-label-edit" placeholder="Edit Label" value="' + $('.item-label', this).text() + '"/></div></li>')
+                        .append('<li class="item"><div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><textarea class="item-desc-edit ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all ui-textinput-autogrow" placeholder="Edit Description">' + $('.widget-content', this).text() + '</textarea></div></li>')
                         .append((function () {
                             var colorList = '<li class="item"><ul class="colors">';
                             $(thisWidgetSettings.colorClasses).each(function () {

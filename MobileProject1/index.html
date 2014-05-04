@@ -26,13 +26,12 @@
 <body>
 
     <div>
-
-    <div id="LoginPage">
-        <div><input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" /></div>
-        <div style="clear:both;"><input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" /></div>
-        <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
-    </div>
+        <div id="LoginPage">
+            <div><input id="txtUser" type="text" value="Username" onfocus="if(this.value=='Username') this.value='';" /></div>
+            <div style="clear:both;"><input id="txtPass" type="password" value="............" onfocus="if(this.value=='............') this.value='';" /></div>
+            <div style="clear:both; float:right"><input type="button" value="Login" onclick="ShowBoard();" /></div>
         </div>
+    </div>
     
     <div id="main"  style="display:none">
 
@@ -48,10 +47,10 @@
         </div>
       </div>
  
-    <div style="height: 55px; " >
+    <div style="height: 55px; ">
         <button id="AddColumn" style="float:right;">+</button>
         <input type="text" id="columnName" style="float:right;"/>
-        <button class="expand-collapse-all" style="margin-right: 10px; background: url('styles/images/down.png') no-repeat; background-color: white; width: 22px; height: 22px; float: right;" status="collapsed" onclick="expandOrCollapseAll();"></button>
+        <button class="expand-collapse-all" status="collapsed" onclick="expandOrCollapseAll();"></button>
     </div>
 
     <div id="columns"></div>
@@ -74,18 +73,18 @@
 
         //var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
 
-        
+
         //    socket.on(myBoard.Id.toString(), function (d) {
         //        renderBoard();
         //    });
-        
+
 
         function _Broadcast(boardId) {
         //        setTimeout(function () {
         //            socket.emit('boardUpdated', { Channel: boardId.toString() });
         //        }, 100);
         };
-        
+
         var board = new BoardRepo(_Broadcast);
 
         //board.AddCategory(1, 'Test Category');
@@ -104,7 +103,7 @@
         //board.PostItem(items[1]);
 
 
-        function ShowBoard() {            
+        function ShowBoard() {
             $("#LoginPage").hide();
             $("#main").show();
         }
@@ -116,7 +115,7 @@
         function updateCallback(e, ui) {
             var newCatId = ui.element[0].id;
             var itemId = $(ui.item[0]).attr('itemid');
-            
+
             updateItem(itemId, newCatId);
 
         }
@@ -125,7 +124,7 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id && items[i].CategoryId != catId) {
                     items[i].CategoryId = catId;
-                    
+
                     //_Broadcast('1', 'ItemUpdated', items[i]);
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //socket.emit('boardUpdated', { Channel: '1', Type: 'ItemUpdated', Item: items[i] });
@@ -135,7 +134,7 @@
             }
         }
 
-        function updateItemLabel(id, label) {            
+        function updateItemLabel(id, label) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Label = label;
@@ -147,7 +146,7 @@
             }
         }
 
-        function updateItemColor(id, color) {                        
+        function updateItemColor(id, color) {
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Color = color;
@@ -155,7 +154,7 @@
                     //board.UpdateItem(myBoard.Id, items[i].CategoryId, items[i].Label, items[i].Color, items[i].Description, items[i].Id);
                     //alert(items[i]);
                     board.PostItem(items[i]);
-                    
+
                     return;
                 }
             }
@@ -165,19 +164,16 @@
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Description = desc;
-                    board.PostItem(items[i]);
                     return;
                 }
             }
         }
 
         function updateItemUsers(id, users) {
-            
+
             for (var i = 0; i < items.length; i++) {
                 if (items[i].Id == id) {
                     items[i].Users = users;
-                    //alert(JSON.stringify(items[i]));
-                    //alert(items[i].Users);
                     return;
                 }
             }
@@ -197,26 +193,36 @@
                 $('ul.column#' + items[i].CategoryId).append($('<li class="widget ' + items[i].Color + '" itemid="' + items[i].Id + '"><div class="widget-head"></div><div class="item-label">' + items[i].Label + '</div><div style="clear: both; height: 39px;" class="user-photo-container"><div class="user-item-id' + items[i].Id + '"></div></div><div class="item-desc widget-content">' + items[i].Description + '</div></li>'));
             }
 
-
             iNettuts.init();
-            
+
             selectedUsers = new Array();
 
             renderUsers();
             initTouch();
+
+
+            initCallIcon();
+        }
+
+        function initCallIcon() {
+            $('.user-image, .call-image').hover(function () {
+                $(this).parent().find('.call-image').show();
+            }, function () {
+                $(this).parent().find('.call-image').hide();
+            });
         }
 
         function renderUsers() {
             $.each(items, function (i, item) {
-			    $.each(item.Users, function (j, userId) {
-			        $.each(users, function (k, user) {
-			            if (user.Id == userId) {
-			                addPhoto(item.Id, user.Name, user.Phone);
-			                selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
-			            }
-			        });					
-				});
-			});
+                $.each(item.Users, function (j, userId) {
+                    $.each(users, function (k, user) {
+                        if (user.Id == userId) {
+                            addPhoto(item.Id, user.Name, user.Phone);
+                            selectedUsers.push({ itemId: item.Id, userId: userId, userName: user.Name });
+                        }
+                    });
+                });
+            });
         }
 
         function selectOrUnselectUser(ctl, user) {
@@ -264,12 +270,12 @@
                     usersIds.push(user.userId);
                 }
             });
-
             updateItemUsers($(parent).attr('itemid'), usersIds);
         }
 
         function addPhoto(itemId, userName, phone) {
             $('.user-item-id' + itemId).append('<div class="' + userName + ' user-image-container"><a href="tel:' + phone + '"><img class="call-image" src="styles/images/call.png" style="display:none;position:absolute"/><img class="user-image" height="30" width="30" src="pictures/' + userName + '.jpg"></a></div>');
+            initCallIcon();
         }
 
         function removePhoto(itemId, userName) {
@@ -281,7 +287,7 @@
             $('div#columns').css('width', totalWidth + 'px');
             touchScrollX("columns");
 
-            $('div.column-container').css('height', $(window).height() - 75 + 'px');            
+            $('div.column-container').css('height', $(window).height() - 75 + 'px');
             touchScrollY("column-container");
         }
 
@@ -327,13 +333,12 @@
                 }, false);
             }
         }
-        
+
 
 
         renderBoard();
 
-        var gId = 8;
-        //$('h3 button[catId]').click(function () {
+        //var gId = 8;
         function addItemButtonClicked(ctl) {
             //repository.CreateItem();
             var colId = $(ctl).attr('catId');
@@ -343,32 +348,26 @@
 
             renderBoard();
 
-            $('li#' + (gId)).find('.edit').click();
+            $('li#' + (itemId)).find('.edit').click();
         }
 
-
-        $('.user-image, .call-image').hover(function () {
-            $(this).parent().find('.call-image').show();
-        }, function () {
-            $(this).parent().find('.call-image').hide();
-        });
 
         function moveCard(itemId, cardId) {
             updateItem(itemId, cardId);
             renderBoard();
         }
-
+        
         function expandOrCollapseAll() {
             if ($('.expand-collapse-all').attr('status') == 'collapse') {
                 $('.item-desc').hide();
                 $('.expand-collapse-all').attr('status', 'expand');
-                $('.expand-collapse-all').css('background', "url('styles/images/down.png') no-repeat").css('background-color', 'white');
+                $('.expand-collapse-all').css('background', "url('styles/images/down.png')");
             }
             else {
                 $('.item-desc').show();
                 $('.expand-collapse-all').attr('status', 'collapse');
-                $('.expand-collapse-all').css('background', "url('styles/images/up.png') no-repeat").css('background-color', 'white');
-            }
+                $('.expand-collapse-all').css('background', "url('styles/images/up.png')");
+            }            
         }
     </script>
 
@@ -380,8 +379,8 @@
 
             var catId = board.AddCategory(myBoard.Id, categoryName);
             //data.push({ Id: gId++, Label: categoryName });
-            
-            renderBoard();       
+
+            renderBoard();
         });
 
     </script>

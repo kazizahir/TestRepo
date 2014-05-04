@@ -252,6 +252,22 @@ img.call-image {
     padding: 10px 3px 10px 3px!important;
 }
 
+.item-desc-edit {
+    font-size: 15px;
+}
+
+.expand-collapse-all {
+    margin-right: 10px!important; 
+    margin-top: 10px!important;
+    background: url('images/down.png');
+    background-repeat: no-repeat!important; 
+    background-position: center!important;
+    background-color: white!important;
+    width: 22px!important;
+    height: 22px!important;
+    float: right!important;
+}
+
 .users-div fieldset.ui-controlgroup {
     margin: 0px!important;
 }
