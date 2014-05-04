@@ -15,13 +15,8 @@
     <script type='text/javascript' src='scripts/jquery-1.9.1.min.js'></script>
     <script type="text/javascript" src="scripts/jquery.mobile-1.4.2.js"></script>
     <script type="text/javascript" src="scripts/jquery-ui.js"></script>
+    <script type="text/javascript" src="scripts/JavaScript3.js"></script>
 
-    <script type="text/javascript">
-        jQuery.noConflict();
-    </script>
-
-    <script type="text/javascript" src="scripts/jquery-1.2.6.min.js"></script>
-    
 </head>
 <body>
 
@@ -33,7 +28,7 @@
         </div>
     </div>
     
-    <div id="main"  style="display:none">
+    <div id="main" style="display:none">
 
       <div id="popupUser" data-role="popup" data-theme="b">
         <div data-role="content" class="content">
@@ -56,14 +51,8 @@
     <div id="columns"></div>
         </div>
 
+    <!--<script type="text/javascript" src="http://192.168.1.116:8085/socket.io/socket.io.js"></script>-->
 
-    <script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
-    
-    
-    <!--<script type="text/javascript" src="http://socketdev.sashiimi.com:8085/socket.io/socket.io.js"></script>-->
-
-
-    <script type="text/javascript" src="scripts/JavaScript1.js"></script>
     <script type="text/javascript" src="scripts/JavaScript2.js"></script>
     <script type="text/javascript" src="scripts/BoardRepo.js"></script>
 
@@ -72,18 +61,18 @@
         var forDelete;
         var myBoard = { Id: 1 };
 
-        //var socket = io.connect('socketdev.sashiimi.com:8085', { secure: false });
+        //var socket = io.connect('192.168.1.116:8085', { secure: false });
 
 
         //    socket.on(myBoard.Id.toString(), function (d) {
-        //        renderBoard();
+        //        //renderBoard();
         //    });
 
 
         function _Broadcast(boardId) {
-        //        setTimeout(function () {
-        //            socket.emit('boardUpdated', { Channel: boardId.toString() });
-        //        }, 100);
+                setTimeout(function () {
+                    //socket.emit('boardUpdated', { Channel: boardId.toString() });
+                }, 10);
         };
 
         var board = new BoardRepo(_Broadcast);
@@ -117,9 +106,8 @@
 
 
         function updateCallback(e, ui) {
-            var newCatId = ui.element[0].id;
+            var newCatId = $(ui.item[0]).parents('ul.column').attr('id');
             var itemId = $(ui.item[0]).attr('itemid');
-
             updateItem(itemId, newCatId);
 
         }
@@ -202,7 +190,7 @@
             selectedUsers = new Array();
 
             renderUsers();
-            initTouch();
+            //initTouch();
 
 
             initCallIcon();
@@ -358,7 +346,7 @@
 
         function moveCard(itemId, cardId) {
             updateItem(itemId, cardId);
-            renderBoard();
+            //renderBoard();
         }
         
         function expandOrCollapseAll() {

@@ -259,8 +259,8 @@
                 stop: function (e, ui) {
                     $(ui.item).css({ width: '' }).removeClass('dragging');
                     $(settings.columns).sortable('enable');
-                },
-                update: updateCallback
+                    updateCallback(e, ui);
+                }
             });
         }
 

@@ -1,6 +1,6 @@
 function BoardRepo(updateDoneCallback) {
     //var basePath = 'http://carddemo.mob.bd';
-    var basePath = 'http://localhost:61346/';
+    var basePath = 'http://localhost:61346';
 
     this.GetBoardItems = function (boardId) {
         var ret;
@@ -10,9 +10,9 @@ function BoardRepo(updateDoneCallback) {
             url: basePath + '/api/values/?boardIdforItems='+boardId,
             
             success: function (data) {
-                var dataItem = JSON.parse(data);
+                //var dataItem = JSON.parse(data);
                 //alert(dataItem[0].Color);
-                ret = dataItem;
+                ret = data;
             }
         });
         return ret;
@@ -26,9 +26,9 @@ function BoardRepo(updateDoneCallback) {
             url: basePath + '/api/values/?boardIdforCategory=' + boardId,
 
             success: function (data) {
-                var dataItem = JSON.parse(data);
+                //var dataItem = JSON.parse(data);
                 //alert(dataItem[0].Color);
-                ret = dataItem;
+                ret = data;
             }
         });
         return ret;
@@ -110,15 +110,13 @@ function BoardRepo(updateDoneCallback) {
     }
 
     this.PostItem = function (Item) {
-        //var ret;
-
         $.ajax({
             type: "POST",
             data: JSON.stringify(Item),
             url: basePath + '/api/values',
             contentType: "application/json",
             success: function (data) {
-
+                updateDoneCallback(1);
                 //if (data > 0)
                 //{
                 //    ret = data;

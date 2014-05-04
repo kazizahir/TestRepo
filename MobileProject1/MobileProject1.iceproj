@@ -68,6 +68,7 @@
     <Resource Include="App_Resources\WP8\Tiles\Iconic\202x202.png" />
     <Content Include="jquery-mobile\js\jquery-1.9.1.min.js" />
     <Content Include="scripts\BoardRepo.js" />
+    <Content Include="scripts\JavaScript3.js" />
     <Content Include="scripts\jquery-1.9.1.min.js" />
     <Content Include="jquery-mobile\js\jquery.mobile-1.3.1.min.js" />
     <Content Include="jquery-mobile\styles\jquery.mobile-1.3.1.min.css" />
@@ -86,7 +87,121 @@
     </Content>
     <Content Include="scripts\location.js" />
     <Content Include="scripts\login.js" />
+    <Content Include="styles\images\1398865577_f_swipe_right.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398865588_edit_property.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398865604_down.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398865613_call_transfer.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398865837_happy.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398865844_forward.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398866307_gmail_login.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1398944533_Add_Row.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1399038138_justify.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1399038396_generic_sorting.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\1399038446_ok.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\add item white.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\add white.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\add-small.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\add.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\ajax-loader.gif">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\back3.jpg">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="styles\images\buttons.gif" />
+    <Content Include="styles\images\call.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\column view.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\delete.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\down.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\edit.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\floppy.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\icons-18-black.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\icons-18-white.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\icons-36-black.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\icons-36-white.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\item add.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\message.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\move copy.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\move.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\move.psd">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\ok %281%29.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\ok.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\row view.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\save small.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\up.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="styles\images\user.png">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="styles\inettuts.css" />
     <Content Include="styles\inettuts.js.css" />
     <Content Include="styles\jquery.mobile-1.4.2.css">
